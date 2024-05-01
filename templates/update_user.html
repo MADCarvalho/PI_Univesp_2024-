@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+    .form-style {
+        max-width: 600px;
+        margin: auto;
+    }
+    
+    .form-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    
+    .form-label {
+        width: 20%; /* Ajuste a largura conforme necessário */
+        min-width: 300px; /* Ajuste o valor mínimo conforme necessário */
+        margin-right: 10px;
+    }
+    
+    .form-control,
+    .form-control select {
+        width: 80%; /* Ajuste a largura conforme necessário */
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    
+    .btn-primary {
+        padding: 10px 20px;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        cursor: pointer;
+    }
+    
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+    
+</style>
+
+
+
+<h1 class="title">Dados Cadastrais</h1>
+
+<form action="/update_user" method="post" class="form-style">
+    <div class="form-group">
+        <label for="name">Nome:</label>
+        <input type="text" id="name" name="name" required>
+    </div>
+
+    <div class="form-group">
+        <label for="medical_record_number">Número do Prontuário:</label>
+        <input type="text" id="medical_record_number" name="medical_record_number" required>
+    </div>
+
+    <div class="form-group">
+        <label for="date_of_birth">Data de Nascimento:</label>
+        <input type="date" id="date_of_birth" name="date_of_birth" required>
+    </div>
+
+    <div class="form-group">
+        <label for="diagnosis">Diagnóstico:</label>
+        <select id="diagnosis" name="diagnosis" required>
+            <option value="">Selecione um diagnóstico</option>
+            <option value="diagnosis1">Grave</option>
+            <option value="diagnosis2">Moderada</option>
+            <option value="diagnosis3">Leve</option>
+            
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="blood_type">Tipo Sanguíneo:</label>
+        <select id="blood_type" name="blood_type" required>
+            <option value="">Selecione o tipo sanguíneo</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="father_name">Nome do Pai:</label> 
+        <input type="father_name" id="father_name" name="father_name">
+    </div>
+
+    <div class="form-group">
+        <label for="mother_name">Nome da Mãe:</label> 
+        <input type="mother_name" id="mother_name" name="mother_name" required>
+    </div>
+
+    <div class="form-group">
+        <label for="address">Endereço:</label> 
+        <input type="address" id="address" name="address" required>
+    </div>
+
+    <div class="form-group">
+        <label for="zip_code">Cep:</label> 
+        <input type="zip_code" id="zip_code" name="zip_code" required>
+    </div>
+     
+    <div class="form-group">
+        <label for="contact_number">Telefone de Contato:</label>
+        <input type="contact_number" id="contact_number" name="contact_number" required>
+    </div>
+
+    <input type="submit" value="Registrar" class="btn btn-primary">
+</form>
+{% endblock %}

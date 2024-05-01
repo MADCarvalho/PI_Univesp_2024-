@@ -1,0 +1,74 @@
+{% extends  "base.html" %}
+
+    {% block content %}
+    
+    <style>
+      .fc-day:hover {
+          background-color: #e3e3e3; /* Cor de fundo ao passar o mouse */
+          cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    
+    }
+      .modal {
+        z-index: 1050; /* Maior que o z-index do backdrop */
+      }  
+      .modal-backdrop {
+        z-index: 1040; /* Menor que o z-index do modal */
+    }
+    </style>
+
+    <div id="calendar"></div>
+      <!-- Modal do Bootstrap para adicionar/editar eventos -->
+    <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="eventModalLabel">Detalhes do Evento</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- Formulário para adicionar/editar eventos -->
+            <form id="eventForm">
+              <!-- Campos do formulário -->
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="submit" form="eventForm" class="btn btn-primary">Salvar Evento</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inclua o JavaScript do jQuery -->
+    <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
+    <!-- Inclua o JavaScript do Bootstrap para o modal funcionar -->
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    <!-- Inclua o JavaScript do FullCalendar -->
+    <script src="{{ url_for('static', filename='fullcalendar/dist/index.global.min.js') }}"></script>
+    <!-- Inclua o arquivo de localização em português do FullCalendar -->
+    <script src="{{ url_for('static', filename='fullcalendar/packages/core/locales/pt.global.js') }}"></script>
+    <!-- Script para inicializar o FullCalendar e configurar o modal -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                locale: 'pt-br', // Define a localização para português
+                initialView: 'dayGridMonth',
+                dateClick: function(info) {
+                    // Abrir modal para adicionar novo evento
+                    $('#eventModal').modal('show');
+                },
+                eventClick: function(info) {
+                    // Abrir modal para editar evento existente
+                    $('#eventModal').modal('show');
+                    // Preencher o formulário com os detalhes do evento
+                }
+                // Adicione outras opções aqui
+            });
+            calendar.render();
+        });
+        
+    </script>
+{% endblock %}

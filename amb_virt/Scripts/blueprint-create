@@ -1,0 +1,87 @@
+#!C:\Users\User\OneDrive - MSFT\Área de Trabalho\PI_login\project\amb_virt\Scripts\python.exe
+
+import errno
+import logging
+import optparse
+import sys
+
+import blueprint.cli
+from blueprint import context_managers
+import blueprint.git
+
+parser = optparse.OptionParser('Usage: %prog [-d <subtrahend>] [-P|-C|-S|-R|...] '
+                               '[-m <message>] [-r] [-q] <name>')
+parser.add_option('-d', '--diff',
+                  dest='subtrahend',
+                  default=None,
+                  help='blueprint to subtract from the generated blueprint')
+parser.add_option('-P', '--puppet',
+                  dest='generate',
+                  action='store_const',
+                  const='puppet',
+                  help='generate a Puppet module')
+parser.add_option('-C', '--chef',
+                  dest='generate',
+                  action='store_const',
+                  const='chef',
+                  help='generate a Chef cookbook')
+parser.add_option('-S', '--sh',
+                  dest='generate',
+                  action='store_const',
+                  const='sh',
+                  help='generate POSIX shell code')
+parser.add_option('-R', '--rules',
+                  dest='generate',
+                  action='store_const',
+                  const='blueprint_rules',
+                  help='generate Blueprint rules')
+parser.add_option('--cfn',
+                  dest='generate',
+                  action='store_const',
+                  const='cfn',
+                  help='generate an AWS CloudFormation template')
+parser.add_option('-m', '--message',
+                  dest='message',
+                  default=None,
+                  help='commit message')
+parser.add_option('-r', '--relaxed',
+                  dest='relaxed',
+                  default=False,
+                  action='store_true',
+                  help='relax version constraints in generated code')
+parser.add_option('-q', '--quiet',
+                  dest='quiet',
+                  default=False,
+                  action='store_true',
+                  help='operate quietly')
+options, args = parser.parse_args()
+
+if options.quiet:
+    logging.root.setLevel(logging.CRITICAL)
+
+if 1 != len(args):
+    parser.print_usage()
+    sys.exit(1)
+
+if not blueprint.git.configured():
+    logging.error('please give Git your name and email address so commits have an author')
+    logging.error('')
+    logging.error('    git config --global user.email "you@example.com"')
+    logging.error('    git config --global user.name "Your Name"')
+    logging.error('')
+    sys.exit(1)
+
+b = blueprint.cli.create(options, args)
+
+try:
+    if options.generate is not None:
+        try:
+            filename = getattr(b, options.generate)(options.relaxed).dumpf()
+        except OSError as e:
+            if errno.EEXIST == e.errno:
+                logging.error('{0} already exists'.format(args[0]))
+            sys.exit(1)
+        if not options.quiet:
+            print(filename)
+except IOError:
+    pass
