@@ -1,74 +1,173 @@
-{% extends  "base.html" %}
+{% extends "base.html" %}
 
-    {% block content %}
-    
-    <style>
-      .fc-day:hover {
-          background-color: #e3e3e3; /* Cor de fundo ao passar o mouse */
-          cursor: pointer; /* Muda o cursor para indicar que é clicável */
-    
-    }
-      .modal {
-        z-index: 1050; /* Maior que o z-index do backdrop */
-      }  
-      .modal-backdrop {
-        z-index: 1040; /* Menor que o z-index do modal */
-    }
-    </style>
+{% block content %}
 
-    <div id="calendar"></div>
-      <!-- Modal do Bootstrap para adicionar/editar eventos -->
-    <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="eventModalLabel">Detalhes do Evento</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
+<div id="calendar"></div>
+
+<!-- Modal para criar novo evento -->
+<div class="modal fade" id="newEventModal" tabindex="-1" role="dialog" aria-labelledby="newEventModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newEventModalLabel">Criar Novo Evento</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Formulário para criar novo evento -->
+        <form id="newEventForm">
+          <!-- Campos do formulário para o novo evento -->
+          <div class="form-group">
+            <label for="eventName">Dosagem UI:</label>
+            <input type="text" class="form-control" id="dosage" name="dosage" required>
           </div>
-          <div class="modal-body">
-            <!-- Formulário para adicionar/editar eventos -->
-            <form id="eventForm">
-              <!-- Campos do formulário -->
-            </form>
+          <!-- Campo para o horário do evento -->
+          <div class="form-group">
+            <label for="eventTime">Horário da infusão:</label>
+            <input type="time" class="form-control" id="eventTime" name="eventTime" required>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-            <button type="submit" form="eventForm" class="btn btn-primary">Salvar Evento</button>
+           
+          <div class="form-group">
+            <label for="eventPurpose">Propósito:</label>
+            <select class="form-control" id="eventPurpose" name="eventPurpose" required >
+              <option value="">Selecione um Propósito</option>
+              <option value="profilatico">Profilático</option>
+              <option value="sobDemanda">Sob demanda</option>
+            </select>
           </div>
-        </div>
+      
+          <div class="form-group">
+            <label for="workSchoolAbsence">Ausência no trabalho ou escola?</label>
+            <select class="form-control" id="workSchoolAbsence" name="workSchoolAbsence" required>
+              <option value="">Selecione uma opção</option>
+              <option value="sim">Sim</option>
+              <option value="nao">Não</option>
+            </select>
+          </div>
+        
+          <!-- Adicione mais campos conforme necessário -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="submit" form="newEventForm" class="btn btn-primary">Criar Evento</button>
       </div>
     </div>
+  </div>
+</div> 
 
-    <!-- Inclua o JavaScript do jQuery -->
-    <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
-    <!-- Inclua o JavaScript do Bootstrap para o modal funcionar -->
-    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
-    <!-- Inclua o JavaScript do FullCalendar -->
-    <script src="{{ url_for('static', filename='fullcalendar/dist/index.global.min.js') }}"></script>
-    <!-- Inclua o arquivo de localização em português do FullCalendar -->
-    <script src="{{ url_for('static', filename='fullcalendar/packages/core/locales/pt.global.js') }}"></script>
-    <!-- Script para inicializar o FullCalendar e configurar o modal -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                locale: 'pt-br', // Define a localização para português
-                initialView: 'dayGridMonth',
-                dateClick: function(info) {
-                    // Abrir modal para adicionar novo evento
+
+
+<!-- Modal para evento 'Sob Demanda' -->
+<div class="modal fade" id="sobDemandaModal" tabindex="-1" role="dialog" aria-labelledby="sobDemandaModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="sobDemandaModalLabel">Evento Sob Demanda</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Formulário para evento sob demanda -->
+        <form id="sobDemandaForm">
+          <!-- Campos adicionais para evento sob demanda -->
+          <!-- ... -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="submit" form="sobDemandaForm" class="btn btn-primary">Adicionar Evento Sob Demanda</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal existente para editar eventos -->
+<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="eventModalLabel">Detalhes do Evento</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Formulário para adicionar/editar eventos -->
+        <form id="eventForm">
+          <!-- Campos do formulário -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        <button type="submit" form="eventForm" class="btn btn-primary">Salvar Evento</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Inclua o JavaScript do jQuery -->
+<script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
+<!-- Inclua o JavaScript do Bootstrap para o modal funcionar -->
+<script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+<!-- Inclua o JavaScript do FullCalendar -->
+<script src="{{ url_for('static', filename='fullcalendar/dist/index.global.min.js') }}"></script>
+<!-- Inclua o arquivo de localização em português do FullCalendar -->
+<script src="{{ url_for('static', filename='fullcalendar/packages/core/locales/pt.global.js') }}"></script>
+<!-- Script para inicializar o FullCalendar e configurar o modal -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            locale: 'pt-br', // Define a localização para português
+            initialView: 'dayGridMonth',
+            dateClick: function(info) {
+                // Verifica se há algum evento na data clicada
+                var dateEvents = calendar.getEvents().filter(function(event) {
+                    return event.startStr === info.dateStr;
+                });
+                if (dateEvents.length > 0) { // Se houver eventos na data, abre o modal de edição
                     $('#eventModal').modal('show');
-                },
-                eventClick: function(info) {
-                    // Abrir modal para editar evento existente
-                    $('#eventModal').modal('show');
-                    // Preencher o formulário com os detalhes do evento
+                } else { // Se não, abre o modal de criação de novo evento
+                    $('#newEventModal').modal('show');
                 }
-                // Adicione outras opções aqui
-            });
-            calendar.render();
+            },
+            eventClick: function(info) {
+                // Abrir modal para editar evento existente
+                $('#eventModal').modal('show');
+                // Preencher o formulário com os detalhes do evento
+            }
+            // Adicione outras opções aqui
+        });  
+
+       
+        calendar.render();
+
+        $('#newEventForm').on('submit', function(e) {
+          e.preventDefault(); // Impede o envio do formulário
+          var propósito = $('#eventPurpose').val();
+          var ausencia = $('#workSchoolAbsence').val();
+        
+          if (propósito === 'sobDemanda') {
+            // Esconde o primeiro modal
+            $('#newEventModal').modal('hide');
+            // Mostra o modal sob demanda
+            $('#sobDemandaModal').modal('show');
+          }
+           else {
+            // Lógica para lidar com a opção 'Profilático'
+            // ...
+          }
         });
         
-    </script>
+    });
+    
+    
+</script>
+
+
 {% endblock %}

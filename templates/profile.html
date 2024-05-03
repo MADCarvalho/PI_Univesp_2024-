@@ -4,4 +4,38 @@
 <h1 class="title">
   Bem vindo, {{ first_name }}!
 </h1>
+<h2 class="subtitle">
+  Aqui estão suas informações de tratamento.
+</h2> 
+
+<table border="1">
+  <tr>
+      <th>Nome completo:</th>
+      <td>{{ full_name }}</td>
+  </tr>
+  <tr>
+      <th>Idade:</th>
+      <td>{{ age }} anos e {{ months }} meses</td>
+  </tr>
+  <tr>
+    <th>Diagnóstico:</th>
+    <td>Inf do DB {{type_diagnosis}}</td>
+  </tr>
+  <tr>
+    <th>Data da última infusão:</th>
+    <td>03/04/2024 <a href="#">link no calendário</a></td>
+  </tr>
+  <tr>
+    <th>Reposição de fator:</th>
+    <td>IX</td>
+  </tr>
+  <tr>
+    <th>Dosagem UI:</th>
+    <td>2500</td>
+  </tr>
+  <tr>
+    <th>Próxima infusão prevista para:</th>
+    <td>03/05/2024 <a href="#">link no calendário</a></td>
+  </tr>
+</table>
 {% endblock %}

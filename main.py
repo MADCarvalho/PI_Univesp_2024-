@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from models import User, Registration_data, db
 from flask import flash
 from auth import login_manager
-from datetime import datetime
+from datetime import datetime,date
 
 
 main_bp = Blueprint('main', __name__)
@@ -17,13 +17,28 @@ def load_user(user_id):
 @main_bp.route('/')
 def index():
     return render_template('index.html')
-
+ 
+ 
+ 
 @main_bp.route('/profile')
 @login_required
 def profile():
     registration_data = Registration_data.query.filter_by(user_id=current_user.id).first()
     first_name = registration_data.name.split()[0] if registration_data else 'Usuário'
-    return render_template('profile.html', first_name=first_name)
+    full_name = registration_data.name if registration_data else 'Usuário'
+    type_diagnosis = registration_data.diagnosis if registration_data else 'Diagnóstico'
+    age, months = calculate_age(registration_data.date_of_birth) if registration_data else (None, None)
+    return render_template('profile.html', first_name=first_name, full_name=full_name, age=age, months=months,
+                           type_diagnosis=type_diagnosis)
+
+def calculate_age(date_of_birth):
+    today = date.today()
+    age = today.year - date_of_birth.year - ((today.month, today.day) < (date_of_birth.month, date_of_birth.day))
+    months = today.month - date_of_birth.month
+    if months < 0 or (months == 0 and today.day < date_of_birth.day):
+        age -= 1
+        months += 12
+    return age, months
 
 @main_bp.route('/update_user', methods=['GET', 'POST'])
 @login_required

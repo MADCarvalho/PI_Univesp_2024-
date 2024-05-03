@@ -1,16 +1,36 @@
 <!DOCTYPE html>
 <html lang="pt">
-
-<!-- Link para o CSS do Bootstrap -->
-<link href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    
-
 <head>
+    <!-- Metadados e links existentes -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>My Hemo Notes</title>
+    <link href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+
+    <!-- Estilos para o modal -->
+    <style>
+        .fc-day:hover {
+            background-color: #e3e3e3; /* Cor de fundo ao passar o mouse */
+            cursor: pointer; /* Muda o cursor para indicar que é clicável */
+        }
+        .modal {
+          z-index: 1050; /* Maior que o z-index do backdrop */
+        }  
+        .modal-backdrop {
+          z-index: 1040; /* Menor que o z-index do modal */
+        }
+      
+        .modal-content {
+          background-color: #f8f9fa; /* Cor de fundo do modal */
+          color: #333333; /* Cor da fonte do modal */
+        }
+      .modal-backdrop {
+        background-color: rgba(0, 0, 0, 0.5); /* Cor de fundo semi-transparente */
+      }
+      /* Adicionar mais estilos globais aqui se necessário */
+    </style>
 </head>
 
 <body>
