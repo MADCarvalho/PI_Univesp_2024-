@@ -40,6 +40,7 @@ def calculate_age(date_of_birth):
         months += 12
     return age, months
 
+
 @main_bp.route('/update_user', methods=['GET', 'POST'])
 @login_required
 def update_user():
