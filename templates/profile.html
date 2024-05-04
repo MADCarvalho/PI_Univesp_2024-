@@ -2,40 +2,61 @@
 
 {% block content %}
 <h1 class="title">
-  Bem vindo, {{ first_name }}!
+  Bem-vindo, {{ first_name }}!
 </h1>
 <h2 class="subtitle">
   Aqui estão suas informações de tratamento.
-</h2> 
+</h2>
 
-<table border="1">
-  <tr>
-      <th>Nome completo:</th>
-      <td>{{ full_name }}</td>
-  </tr>
-  <tr>
-      <th>Idade:</th>
-      <td>{{ age }} anos e {{ months }} meses</td>
-  </tr>
-  <tr>
-    <th>Diagnóstico:</th>
-    <td>Inf do DB {{type_diagnosis}}</td>
-  </tr>
-  <tr>
-    <th>Data da última infusão:</th>
-    <td>03/04/2024 <a href="#">link no calendário</a></td>
-  </tr>
-  <tr>
-    <th>Reposição de fator:</th>
-    <td>IX</td>
-  </tr>
-  <tr>
-    <th>Dosagem UI:</th>
-    <td>2500</td>
-  </tr>
-  <tr>
-    <th>Próxima infusão prevista para:</th>
-    <td>03/05/2024 <a href="#">link no calendário</a></td>
-  </tr>
-</table>
+<div style="text-align: center;">
+  <table style="margin: 0 auto;">
+    <tr>
+      <th style="padding: 10px;color: #FFFFFF;">Nome completo:</th>
+      <td style="padding: 10px;">{{ full_name }}</td>
+    </tr>
+    <tr>
+      <th style="padding: 10px;color: #FFFFFF;">Idade:</th>
+      <td style="padding: 10px;">{{ age }} anos e {{ months }} meses</td>
+    </tr>
+    <tr>
+      <th style="padding: 10px;color: #FFFFFF;">Diagnóstico:</th>
+      <td style="padding: 10px;">Hemofilia {{ type_diagnosis }}</td>
+    </tr>
+    <tr>
+      <tr>
+        <th style="padding: 10px;color: #FFFFFF;">Data da última infusão:</th>
+        <td style="padding: 10px;">
+          <span class="calendar-link" data-date="2024-04-03">03/04/2024</span>
+        </td>
+      </tr>
+    <tr>
+      <th style="padding: 10px;color: #FFFFFF;">Reposição de fator:</th>
+      <td style="padding: 10px;">IX</td>
+    </tr>
+    <tr>
+      <th style="padding: 10px;color: #FFFFFF;">Dosagem UI:</th>
+      <td style="padding: 10px;">2500</td>
+    </tr>
+    <tr>
+      <th style="padding: 10px;color: #FFFFFF;">Próxima infusão prevista para:</th>
+      <td style="padding: 10px;">
+        <span class="calendar-link" data-date="2024-05-03">03/05/2024</span>
+      </td>
+    </tr>
+  </table>
+</div>
+<script>
+  // Adiciona um evento de clique aos elementos com a classe 'calendar-link'
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarLinks = document.querySelectorAll('.calendar-link');
+    calendarLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        // Obtém a data do atributo 'data-date' do elemento clicado
+        var date = this.getAttribute('data-date');
+        // Redireciona para o FullCalendar com a data específica
+        window.location.href = "{{ url_for('main.calendar') }}?date=" + date;
+      });
+    });
+  });
+</script>
 {% endblock %}

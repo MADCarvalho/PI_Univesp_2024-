@@ -43,6 +43,9 @@ def calculate_age(date_of_birth):
 @main_bp.route('/update_user', methods=['GET', 'POST'])
 @login_required
 def update_user():
+    # Obter o registro de dados do usuário atual, se existir
+    registration_data = Registration_data.query.filter_by(user_id=current_user.id).first()
+
     if request.method == 'POST':
         name = request.form['name']
         medical_record_number = request.form['medical_record_number']
@@ -58,15 +61,27 @@ def update_user():
         # Converter a string de data de nascimento para um objeto de data Python
         date_of_birth = datetime.strptime(date_of_birth_str, '%Y-%m-%d').date()
 
-        new_registration_data = Registration_data(
-            name=name, medical_record_number=medical_record_number,
-            date_of_birth=date_of_birth, diagnosis=diagnosis, blood_type=blood_type,
-            father_name=father_name, mother_name=mother_name, address=address,
-            zip_code=zip_code, contact_number=contact_number, user_id=current_user.id
-        )
+        if registration_data:  # Se já existe registro de dados para o usuário, atualiza
+            registration_data.name = name
+            registration_data.medical_record_number = medical_record_number
+            registration_data.date_of_birth = date_of_birth
+            registration_data.diagnosis = diagnosis
+            registration_data.blood_type = blood_type
+            registration_data.father_name = father_name
+            registration_data.mother_name = mother_name
+            registration_data.address = address
+            registration_data.zip_code = zip_code
+            registration_data.contact_number = contact_number
+        else:  # Se não existe registro de dados, cria um novo
+            registration_data = Registration_data(
+                name=name, medical_record_number=medical_record_number,
+                date_of_birth=date_of_birth, diagnosis=diagnosis, blood_type=blood_type,
+                father_name=father_name, mother_name=mother_name, address=address,
+                zip_code=zip_code, contact_number=contact_number, user_id=current_user.id
+            )
 
         try:
-            db.session.add(new_registration_data)
+            db.session.add(registration_data)
             db.session.commit()
             flash('Cadastro atualizado com sucesso.', 'success')
             return redirect(url_for('main.profile'))  # Redireciona para a página de perfil
@@ -76,7 +91,23 @@ def update_user():
             current_app.logger.error(f'Erro ao atualizar cadastro: {str(e)}')
             return redirect(url_for('main.update_user'))  # Redireciona de volta para a página de atualização de usuário
 
-    return render_template('update_user.html')
+    # Preencher o formulário com os dados existentes do usuário, se existir
+    form_data = {}
+    if registration_data:
+        form_data = {
+            'name': registration_data.name,
+            'medical_record_number': registration_data.medical_record_number,
+            'date_of_birth': registration_data.date_of_birth.strftime('%Y-%m-%d'),
+            'diagnosis': registration_data.diagnosis,
+            'blood_type': registration_data.blood_type,
+            'father_name': registration_data.father_name,
+            'mother_name': registration_data.mother_name,
+            'address': registration_data.address,
+            'zip_code': registration_data.zip_code,
+            'contact_number': registration_data.contact_number
+        }
+
+    return render_template('update_user.html', form_data=form_data)
 
 @main_bp.route('/calendar')
 def calendar():
