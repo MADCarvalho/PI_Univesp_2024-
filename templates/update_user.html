@@ -99,42 +99,41 @@
 
     
 
-    <div class="field">
-        <label class="label" for="father_name">Nome do Pai:</label>
-        <div class="control">
-            <input class="input" type="text" id="father_name" name="father_name"value="{{ form_data.father_name }}" required>
-        </div>
-    </div>
+       <div class="field">
+           <label class="label" for="father_name">Nome do Pai:</label>
+            <div class="control">
+             <input class="input" type="text" id="father_name" name="father_name"value="{{ form_data.father_name }}" required>
+            </div>
+       </div>
 
-    <div class="field">
-        <label class="label" for="mother_name">Nome da Mãe:</label>
-        <div class="control">
-            <input class="input" type="text" id="mother_name" name="mother_name" value="{{ form_data.mother_name }}"required>
-        </div>
-    </div>
+       <div class="field">
+           <label class="label" for="mother_name">Nome da Mãe:</label>
+           <div class="control">
+             <input class="input" type="text" id="mother_name" name="mother_name" value="{{ form_data.mother_name }}"required>
+           </div>
+       </div>
 
-    <div class="field">
-        <label class="label" for="address">Endereço:</label>
-        <div class="control">
-            <input class="input" type="text" id="address" name="address" value="{{ form_data.address }}" required>
-        </div>
-    </div>
+       <div class="field">
+           <label class="label" for="address">Endereço:</label>
+            <div class="control">
+              <input class="input" type="text" id="address" name="address" value="{{ form_data.address }}" required>
+           </div>
+       </div>
      
-    <div class="field">
-        <label class="label" for="zip_code">Cep:</label>
-        <div class="control">
-            <input class="input" type="text" id="zip_code" name="zip_code" value="{{ form_data.zip_code }}" required>
-        </div>
-    </div>
+       <div class="field">
+           <label class="label" for="zip_code">Cep:</label>
+           <div class="control">
+               <input class="input" type="text" id="zip_code" name="zip_code" value="{{ form_data.zip_code }}" required>
+           </div>
+       </div>
     
-    <div class="field">
-        <label class="label" for="contact_number">Telefone de Contato:</label>
-        <div class="control">
-            <input class="input" type="text" id="contact_number" name="contact_number" value="{{ form_data.contact_number }}" required>
-        </select>
-    </div>
-</div>
-</div>
-<input type="submit" value="Registrar" class="btn btn-primary">
-</form>
+       <div class="field">
+           <label class="label" for="contact_number">Telefone de Contato:</label>
+           <div class="control">
+               <input class="input" type="text" id="contact_number" name="contact_number" value="{{ form_data.contact_number }}" required>
+           </div>
+        </div>
+      
+        <input type="submit" value="Registrar" class="btn btn-primary">
+    </form>
 {% endblock %}
