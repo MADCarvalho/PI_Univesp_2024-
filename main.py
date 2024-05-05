@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, current_app
 from flask_login import login_required, current_user
-from models import User, Registration_data, db
+from models import User, Registration_data, db, Applications
 from flask import flash
 from auth import login_manager
 from datetime import datetime,date
@@ -113,3 +113,22 @@ def update_user():
 @main_bp.route('/calendar')
 def calendar():
     return render_template('calendar.html')
+
+
+@main_bp.route('/add_application', methods=['POST'])
+@login_required
+def add_application():
+    data = request.form
+    new_application = Applications(
+        type_of_factor=data.get('type_of_factor'),
+        dosage=data.get('dosage'),
+        purpose=data.get('purpose'),
+        absence=data.get('absence') == 'true',
+        application_date=data.get('application_date'),
+        application_time=data.get('application_time')
+    )
+    db.session.add(new_application)
+    db.session.commit()
+    flash('Aplicação adicionada com sucesso!', 'success')
+    return render_template('calendar.html')    
+    

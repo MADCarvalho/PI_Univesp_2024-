@@ -9,14 +9,14 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="newEventModalLabel">Criar Novo Evento</h5>
+        <h5 class="modal-title" id="newEventModalLabel">Registrar Novo Evento</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <!-- Formulário para criar novo evento -->
-        <form id="newEventForm">
+        <form method="POST" action="/add_application">
           <!-- Campos do formulário para o novo evento -->
           <div class="form-group">
             <label for="eventName">Dosagem UI:</label>
