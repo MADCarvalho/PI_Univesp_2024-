@@ -1,0 +1,15 @@
+{ 
+    "versão": 2, 
+    "builds": [ 
+        { 
+            "src": "./index.py", 
+            "use": "@vercel/python" 
+        } 
+    ], 
+    "rotas": [ 
+        { 
+            "src": "/ (.*)", 
+            "destino": "/" 
+        } 
+    ] 
+}
