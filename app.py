@@ -1,4 +1,3 @@
-# app.py
 from flask import Flask
 from auth import auth_bp
 from main import main_bp
@@ -7,7 +6,7 @@ from extensions import db, init_app
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'projetointegradorunivesp2024'
-    app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://default:e5S6IVgfAFuY@ep-muddy-morning-a64mj7do-pooler.us-west-2.aws.neon.tech:5432/verceldb?sslmode=require"
+    app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://default:e5S6IVgfAFuY@ep-muddy-morning-a64mj7do-pooler.us-west-2.aws.neon.tech:5432/verceldb?sslmode=require"
 
     init_app(app)
 
