@@ -33,12 +33,17 @@ def profile():
 
 def calculate_age(date_of_birth):
     today = date.today()
-    age = today.year - date_of_birth.year - ((today.month, today.day) < (date_of_birth.month, date_of_birth.day))
-    months = today.month - date_of_birth.month
-    if months < 0 or (months == 0 and today.day < date_of_birth.day):
+    age = today.year - date_of_birth.year
+
+    # Verifica se o mês e o dia de hoje são menores ou iguais ao mês e dia de nascimento
+    if (today.month, today.day) < (date_of_birth.month, date_of_birth.day):
         age -= 1
-        months += 12
+        months = 12 - (date_of_birth.month - today.month)
+    else:
+        months = today.month - date_of_birth.month
+
     return age, months
+
 
 
 @main_bp.route('/update_user', methods=['GET', 'POST'])
@@ -125,7 +130,8 @@ def add_application():
         purpose=data.get('purpose'),
         absence=data.get('absence') == 'true',
         application_date=data.get('application_date'),
-        application_time=data.get('application_time')
+        application_time=data.get('application_time'),
+        user_id=current_user.id
     )
     db.session.add(new_application)
     db.session.commit()

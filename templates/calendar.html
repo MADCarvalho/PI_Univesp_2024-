@@ -2,222 +2,210 @@
 
 {% block content %}
 
-<div id="calendar"></div>
+    <div class="container">
 
-<!-- Modal para criar novo evento -->
-<div class="modal fade" id="newEventModal" tabindex="-1" role="dialog" aria-labelledby="newEventModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="newEventModalLabel">Registrar Novo Evento</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- Formulário para criar novo evento -->
-        <form method="POST" action="/add_application">
-          <!-- Campos do formulário para o novo evento -->
-          <div class="form-group">
-            <label for="eventName">Dosagem UI:</label>
-            <input type="text" class="form-control" id="dosage" name="dosage" required>
-          </div>
-          <!-- Campo para o horário do evento -->
-          <div class="form-group">
-            <label for="eventTime">Horário da infusão:</label>
-            <input type="time" class="form-control" id="eventTime" name="eventTime" required>
-          </div>
-           
-          <div class="form-group">
-            <label for="eventPurpose">Propósito:</label>
-            <select class="form-control" id="eventPurpose" name="eventPurpose" required >
-              <option value="">Selecione um Propósito</option>
-              <option value="profilatico">Profilático</option>
-              <option value="sobDemanda">Sob demanda</option>
-            </select>
-          </div>
-      
-          <div class="form-group">
-            <label for="workSchoolAbsence">Ausência no trabalho ou escola?</label>
-            <select class="form-control" id="workSchoolAbsence" name="workSchoolAbsence" required>
-              <option value="">Selecione uma opção</option>
-              <option value="sim">Sim</option>
-              <option value="nao">Não</option>
-            </select>
-          </div>
-        
-          <!-- Adicione mais campos conforme necessário -->
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="submit" form="newEventForm" class="btn btn-primary">Criar Evento</button>
-      </div>
+        <h2 class="mb-4">Agenda</h2>
+
+        <span id="msg"></span>
+
+        <div id='calendar'></div>
+
     </div>
-  </div>
-</div> 
 
+    <!-- Modal Visualizar -->
+    <div class="modal fade" id="visualizarModal" tabindex="-1" aria-labelledby="visualizarModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
 
+                    <h1 class="modal-title fs-5" id="visualizarModalLabel">Visualizar o Evento</h1>
 
-<!-- Modal para evento 'Sob Demanda' -->
-<div class="modal fade" id="sobDemandaModal" tabindex="-1" role="dialog" aria-labelledby="sobDemandaModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="sobDemandaModalLabel">Evento Sob Demanda</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- Formulário para evento sob demanda -->
-        <form id="sobDemandaForm">
-          <!-- Campos adicionais para evento sob demanda -->
-          <!-- ... -->
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="submit" form="sobDemandaForm" class="btn btn-primary">Adicionar Evento Sob Demanda</button>
-      </div>
+                    <h1 class="modal-title fs-5" id="editarModalLabel" style="display: none;">Editar o Evento</h1>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <span id="msgViewEvento"></span>
+
+                    <div id="visualizarEvento">
+
+                        <dl class="row">
+
+                            <dt class="col-sm-3">ID: </dt>
+                            <dd class="col-sm-9" id="visualizar_id"></dd>
+
+                            <dt class="col-sm-3">Título: </dt>
+                            <dd class="col-sm-9" id="visualizar_title"></dd>
+
+                            <dt class="col-sm-3">Observação: </dt>
+                            <dd class="col-sm-9" id="visualizar_obs"></dd>
+
+                            <dt class="col-sm-3">Início: </dt>
+                            <dd class="col-sm-9" id="visualizar_start"></dd>
+
+                            <dt class="col-sm-3">Fim: </dt>
+                            <dd class="col-sm-9" id="visualizar_end"></dd>
+
+                        </dl>
+
+                        <button type="button" class="btn btn-warning" id="btnViewEditEvento">Editar</button>
+
+                        <button type="button" class="btn btn-danger" id="btnApagarEvento">Apagar</button>
+
+                    </div>
+
+                    <div id="editarEvento" style="display: none;">
+
+                        <span id="msgEditEvento"></span>
+
+                        <form method="POST" id="formEditEvento">
+
+                            <input type="hidden" name="edit_id" id="edit_id">
+
+                            <div class="row mb-3">
+                                <label for="edit_title" class="col-sm-2 col-form-label">Título</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="edit_title" class="form-control" id="edit_title" placeholder="Título do evento">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="edit_obs" class="col-sm-2 col-form-label">Observação</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="edit_obs" class="form-control" id="edit_obs" placeholder="Observação do evento">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="edit_start" class="col-sm-2 col-form-label">Início</label>
+                                <div class="col-sm-10">
+                                    <input type="datetime-local" name="edit_start" class="form-control" id="edit_start">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="edit_end" class="col-sm-2 col-form-label">Fim</label>
+                                <div class="col-sm-10">
+                                    <input type="datetime-local" name="edit_end" class="form-control" id="edit_end">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="edit_color" class="col-sm-2 col-form-label">Cor</label>
+                                <div class="col-sm-10">
+                                    <select name="edit_color" class="form-control" id="edit_color">
+                                        <option value="">Selecione</option>
+                                        <option style="color:#FFD700;" value="#FFD700">Amarelo</option>
+                                        <option style="color:#0071c5;" value="#0071c5">Azul Turquesa</option>
+                                        <option style="color:#FF4500;" value="#FF4500">Laranja</option>
+                                        <option style="color:#8B4513;" value="#8B4513">Marrom</option>
+                                        <option style="color:#1C1C1C;" value="#1C1C1C">Preto</option>
+                                        <option style="color:#436EEE;" value="#436EEE">Royal Blue</option>
+                                        <option style="color:#A020F0;" value="#A020F0">Roxo</option>
+                                        <option style="color:#40E0D0;" value="#40E0D0">Turquesa</option>
+                                        <option style="color:#228B22;" value="#228B22">Verde</option>
+                                        <option style="color:#8B0000;" value="#8B0000">Vermelho</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button type="button" name="btnViewEvento" class="btn btn-primary" id="btnViewEvento">Cancelar</button>
+
+                            <button type="submit" name="btnEditEvento" class="btn btn-warning" id="btnEditEvento">Salvar</button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
+    <!-- Modal Cadastrar -->
+    <div class="modal fade" id="cadastrarModal" tabindex="-1" aria-labelledby="cadastrarModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="cadastrarModalLabel">Cadastrar novo Evento</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
 
+                    <span id="msgCadEvento"></span>
 
-<!-- Modal existente para editar eventos -->
-<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="eventModalLabel">Detalhes do Evento</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- Formulário para adicionar/editar eventos -->
-        <form id="eventForm">
-          <!-- Campos do formulário -->
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-        <button type="submit" form="eventForm" class="btn btn-primary">Salvar Evento</button>
-      </div>
+                    <form id="formCadEvento" method="POST" action="/add_application">
+
+                        <div class="row mb-3">
+                            <label for="eventPurpose" class="col-sm-2 col-form-label">Propósito</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="eventPurpose" name="eventPurpose" required >
+                                    <option value="">Selecione um Propósito</option>
+                                    <option value="profilatico">Profilático</option>
+                                    <option value="sobDemanda">Sob demanda</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="dosage" class="col-sm-2 col-form-label">Dosagem UI:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="dosage" name="dosage" required placeholder="Dosagem aplicada">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="type_of_factor" class="col-sm-2 col-form-label">Fator:</label>
+                            <div class="col-sm-10">
+                                 <select class="form-control" id="type_of_factor" name="type_of_factor" required >  
+                                   <option value="">Fator administrado</option>
+                                   <option value="VIII">VIII</option>
+                                   <option value="IX">IX</option>
+                                 </select>
+                            </div>
+                        </div> 
+                        
+                        <div class="row mb-3">
+                            <label for="workSchoolAbsence" class="col-sm-2 col-form-label">Ausência?</label>
+                            <div class="col-sm-10">
+                                 <select class="form-control" id="workSchoolAbsence" name="workSchoolAbsence" required >  
+                                   <option value="">Ausência no trabalho ou escola?</option>
+                                   <option value="sim">Sim</option>
+                                   <option value="nao">Não</option>
+                                 </select>
+                            </div>
+                        </div>    
+
+                        <div class="row mb-3">
+                            <label for="application_date" class="col-sm-2 col-form-label">Data</label>
+                            <div class="col-sm-10">
+                                <input type="date" name="application_date" class="form-control" id="application_date">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="application_time" class="col-sm-2 col-form-label">Horario</label>
+                            <div class="col-sm-10">
+                                <input type="time" name="application_time" class="form-control" id="application_time">
+                            </div>
+                        </div>
+
+                        
+                        <button type="submit" name="btnCadEvento" class="btn btn-success" id="btnCadEvento">Cadastrar</button>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
-<!-- Inclua o JavaScript do jQuery -->
-<script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
-<!-- Inclua o JavaScript do Bootstrap para o modal funcionar -->
-<script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
-<!-- Inclua o JavaScript do FullCalendar -->
-<script src="{{ url_for('static', filename='fullcalendar/dist/index.global.min.js') }}"></script>
-<!-- Inclua o arquivo de localização em português do FullCalendar -->
-<script src="{{ url_for('static', filename='fullcalendar/packages/core/locales/pt.global.js') }}"></script>
-<!-- Script para inicializar o FullCalendar e configurar o modal -->
-<script>
-  
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
-      },
-      locale: 'pt-br', // Define a localização para português
-      initialDate: '2023-01-12',
-     
-      navLinks: true, // can click day/week names to navigate views
-      selectable: true,
-      selectMirror: true,
-      select: function(arg) {
-        var title = prompt('Event Title:');
-        if (title) {
-          calendar.addEvent({
-            title: title,
-            start: arg.start,
-            end: arg.end,
-            allDay: arg.allDay
-          })
-        }
-        calendar.unselect()
-      },
-      eventClick: function(arg) {
-        if (confirm('Are you sure you want to delete this event?')) {
-          arg.event.remove()
-        }
-      },
-      editable: true,
-      dayMaxEvents: true, // allow "more" link when too many events
-      events: [
-        {
-          title: 'All Day Event',
-          start: '2023-01-01'
-        },
-        {
-          title: 'Long Event',
-          start: '2023-01-07',
-          end: '2023-01-10'
-        },
-        {
-          groupId: 999,
-          title: 'Repeating Event',
-          start: '2023-01-09T16:00:00'
-        },
-        {
-          groupId: 999,
-          title: 'Repeating Event',
-          start: '2023-01-16T16:00:00'
-        },
-        {
-          title: 'Conference',
-          start: '2023-01-11',
-          end: '2023-01-13'
-        },
-        {
-          title: 'Meeting',
-          start: '2023-01-12T10:30:00',
-          end: '2023-01-12T12:30:00'
-        },
-        {
-          title: 'Lunch',
-          start: '2023-01-12T12:00:00'
-        },
-        {
-          title: 'Meeting',
-          start: '2023-01-12T14:30:00'
-        },
-        {
-          title: 'Happy Hour',
-          start: '2023-01-12T17:30:00'
-        },
-        {
-          title: 'Dinner',
-          start: '2023-01-12T20:00:00'
-        },
-        {
-          title: 'Birthday Party',
-          start: '2023-01-13T07:00:00'
-        },
-        {
-          title: 'Click for Google',
-          url: 'http://google.com/',
-          start: '2023-01-28'
-        }
-      ]
-    });
-
-    calendar.render();
-  });
-
-    
-</script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src='static/js/index.global.min.js'></script>
+    <script src="static/js/bootstrap5/index.global.min.js"></script>
+    <script src='static/js/core/locales-all.global.min.js'></script>
+    <script src='static/js/custom.js'></script>
+    <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
 
 {% endblock %}
