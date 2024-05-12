@@ -31,7 +31,26 @@
         background-color: rgba(0, 0, 0, 0.5); /* Cor de fundo semi-transparente */
       }
       /* Adicionar mais estilos globais aqui se necessário */
-    </style>
+      
+      /* Estilos para o botão hamburger e menu responsivo */
+      .navbar-burger {
+          display: none;
+      }
+
+      @media screen and (max-width: 768px) {
+          .navbar-burger {
+              display: block;
+          }
+
+          .navbar-menu {
+              display: none;
+          }
+
+          .navbar-menu.is-active {
+              display: block;
+          }
+      }
+  </style>
 </head>
 
 <body>
@@ -40,6 +59,15 @@
         <div class="hero-head">
             <nav class="navbar">
                 <div class="container">
+                  
+                    <!-- Botão hamburger para telas pequenas -->
+                  <span class="navbar-burger burger" data-target="navbarMenuHeroA">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+
+                <!-- Menu de navegação -->
 
                     <div id="navbarMenuHeroA" class="navbar-menu">
                         <div class="navbar-end">
@@ -79,6 +107,31 @@
             </div>
         </div>
     </section>
-</body>
+      
+     <!-- Script para o botão hamburger -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Obtém todas as classes "navbar-burger"
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+            // Verifica se há navbar burgers
+            if ($navbarBurgers.length > 0) {
+                // Adiciona um evento de clique em cada um deles
+                $navbarBurgers.forEach(el => {
+                    el.addEventListener('click', () => {
+                        // Obtém o alvo do "data-target" atributo
+                        const target = el.dataset.target;
+                        const $target = document.getElementById(target);
+
+                        // Alterna as classes "is-active" no burger e no "target"
+                        el.classList.toggle('is-active');
+                        $target.classList.toggle('is-active');
+                    });
+                });
+            }
+        });
+      </script>
+  
+    </body>
 
 </html>

@@ -1,11 +1,20 @@
 body {
-    margin: 40px 10px;
+    margin: 0px 0px;
     padding: 0;
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-    font-size: 14px;
+    font-size: 18px;
 }
 
 #calendar {
     max-width: 1320px;
     margin: 0 auto;
+} 
+/* Estilos para o botão hamburger e 'X' para fechar */
+.navbar-burger span, .navbar-burger.is-active span {
+    background-color: white; /* Muda a cor das barras para branco */
+}
+
+/* Estilos para o botão hamburger quando ativo ('X' para fechar) */
+.navbar-burger.is-active {
+    color: white; /* Muda a cor do 'X' para branco */
 }
