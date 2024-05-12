@@ -58,13 +58,13 @@ class Applications(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     type_of_factor = db.Column(db.String(100), nullable=False)
     dosage = db.Column(db.String(100), nullable=False)
-    purpose = db.Column(db.String(100), nullable=False)
+    purpose = db.Column(db.String(150), nullable=False)
     absence = db.Column(db.String(10), nullable=False)
     application_date = db.Column(db.String(10), nullable=False)
     application_time = db.Column(db.String(10), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     
-    def __init__(self, type_of_factor, dosage , purpose, absence, application_date, application_time, user_id):
+    def __init__(self, type_of_factor, dosage, purpose, absence, application_date, application_time, user_id):
         self.type_of_factor = type_of_factor
         self.dosage = dosage
         self.purpose = purpose

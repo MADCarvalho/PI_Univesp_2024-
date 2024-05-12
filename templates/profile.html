@@ -19,28 +19,32 @@
       <td style="padding: 10px;">{{ age }} anos e {{ months }} meses</td>
     </tr>
     <tr>
+      <th style="padding: 10px;color: #FFFFFF;">Tipo sanguíneo:</th>
+      <td style="padding: 10px;">{{ blood_type }}</td>
+    </tr>
+    <tr>
       <th style="padding: 10px;color: #FFFFFF;">Diagnóstico:</th>
       <td style="padding: 10px;">Hemofilia {{ type_diagnosis }}</td>
     </tr>
     <tr>
       <tr>
-        <th style="padding: 10px;color: #FFFFFF;">Data da última infusão:</th>
+        <th style="padding: 10px; color: #FFFFFF;">Data da última infusão:</th>
         <td style="padding: 10px;">
-          <span class="calendar-link" data-date="2024-04-03">03/04/2024</span>
+          <span class="calendar-link" id="application_date" data-date="2024-04-03"></span>
         </td>
       </tr>
     <tr>
       <th style="padding: 10px;color: #FFFFFF;">Reposição de fator:</th>
-      <td style="padding: 10px;">IX</td>
+      <td style="padding: 10px;">{{ type_of_factor }}</td>
     </tr>
     <tr>
       <th style="padding: 10px;color: #FFFFFF;">Dosagem UI:</th>
-      <td style="padding: 10px;">2500</td>
+      <td style="padding: 10px;">{{ dosage }}</td>
     </tr>
     <tr>
       <th style="padding: 10px;color: #FFFFFF;">Próxima infusão prevista para:</th>
       <td style="padding: 10px;">
-        <span class="calendar-link" data-date="2024-05-03">03/05/2024</span>
+        <span class="calendar-link" id="application_date" data-date="2024-04-03"></span>
       </td>
     </tr>
   </table>
@@ -58,5 +62,13 @@
       });
     });
   });
-</script>
+
+         window.addEventListener('DOMContentLoaded', (event) => {
+           let dataElement = document.getElementById('application_date');
+           let dataISO = dataElement.getAttribute('data-date');
+            let dataFormatada = new Date(dataISO).toLocaleDateString('pt-BR');
+            dataElement.textContent = dataFormatada;
+          });
+
+          </script>
 {% endblock %}

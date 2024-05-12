@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, redirect, url_for, request, current_app
 from flask_login import login_required, current_user
 from models import User, Registration_data, db, Applications
-from flask import flash
+from flask import flash, jsonify
 from auth import login_manager
-from datetime import datetime,date
+from datetime import datetime, date, timedelta
 
 
 main_bp = Blueprint('main', __name__)
@@ -24,12 +24,18 @@ def index():
 @login_required
 def profile():
     registration_data = Registration_data.query.filter_by(user_id=current_user.id).first()
+    applications = Applications.query.filter_by(user_id=current_user.id).first()
     first_name = registration_data.name.split()[0] if registration_data else 'Usuário'
     full_name = registration_data.name if registration_data else 'Usuário'
     type_diagnosis = registration_data.diagnosis if registration_data else 'Diagnóstico'
+    blood_type = registration_data.blood_type if registration_data else 'Tipo sanguíneo'
+    type_of_factor = applications.type_of_factor if applications else 'Fator'
+    dosage = applications.dosage if applications else 'Dosagem'
+    application_date = applications.application_date if applications else 'Data'
     age, months = calculate_age(registration_data.date_of_birth) if registration_data else (None, None)
     return render_template('profile.html', first_name=first_name, full_name=full_name, age=age, months=months,
-                           type_diagnosis=type_diagnosis)
+                           type_diagnosis=type_diagnosis, blood_type=blood_type, type_of_factor=type_of_factor,
+                           dosage=dosage,  application_date= application_date )
 
 def calculate_age(date_of_birth):
     today = date.today()
@@ -120,6 +126,24 @@ def calendar():
     return render_template('calendar.html')
 
 
+#  rota para retornar os eventos em formato JSON
+@main_bp.route('/api/eventos')
+def api_eventos():
+    # Buscar todos os eventos associados ao usuário atual
+    eventos = Applications.query.filter_by(user_id=current_user.id).all()
+    
+    # Formatar os eventos para o formato esperado pelo FullCalendar
+    eventos_formatados = []
+    for evento in eventos:
+        # Certifique-se de que 'application_date' é um objeto datetime
+        data_inicio = datetime.strptime(evento.application_date, '%Y-%m-%d').date()
+        eventos_formatados.append({
+            'title': evento.purpose,
+            'start': data_inicio.strftime('%Y-%m-%dT%H:%M:%S'),
+            'end': (data_inicio + timedelta(hours=1)).strftime('%Y-%m-%dT%H:%M:%S'),
+        })
+    return jsonify(eventos_formatados)
+
 @main_bp.route('/add_application', methods=['POST'])
 @login_required
 def add_application():
@@ -127,7 +151,7 @@ def add_application():
     new_application = Applications(
         type_of_factor=data.get('type_of_factor'),
         dosage=data.get('dosage'),
-        purpose=data.get('purpose'),
+        purpose=data.get('eventPurpose'),
         absence=data.get('absence') == 'true',
         application_date=data.get('application_date'),
         application_time=data.get('application_time'),

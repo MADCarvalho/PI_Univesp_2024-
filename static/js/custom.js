@@ -15,8 +15,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Instanciar FullCalendar.Calendar e atribuir a variável calendar
     var calendar = new FullCalendar.Calendar(calendarEl, {
-
-        // Incluir o bootstrap 5
+         
+        initialView: 'dayGridMonth',
+        events: '/api/eventos',
+        
+       // Incluir o bootstrap 5
         themeSystem: 'bootstrap5',
 
         // Criar o cabeçalho do calendário
