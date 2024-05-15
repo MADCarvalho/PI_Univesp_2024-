@@ -122,12 +122,14 @@ def update_user():
     return render_template('update_user.html', form_data=form_data)
 
 @main_bp.route('/calendar')
+@login_required
 def calendar():
     return render_template('calendar.html')
 
 
 #  rota para retornar os eventos em formato JSON
 @main_bp.route('/api/eventos')
+@login_required
 def api_eventos():
     # Buscar todos os eventos associados ao usuário atual
     eventos = Applications.query.filter_by(user_id=current_user.id).all()
@@ -135,14 +137,80 @@ def api_eventos():
     # Formatar os eventos para o formato esperado pelo FullCalendar
     eventos_formatados = []
     for evento in eventos:
-        # Certifique-se de que 'application_date' é um objeto datetime
+        # Certifica que 'application_date' é um objeto datetime
         data_inicio = datetime.strptime(evento.application_date, '%Y-%m-%d').date()
         eventos_formatados.append({
+            'id': evento.id,  # Inclua o ID do evento aqui
             'title': evento.purpose,
             'start': data_inicio.strftime('%Y-%m-%dT%H:%M:%S'),
             'end': (data_inicio + timedelta(hours=1)).strftime('%Y-%m-%dT%H:%M:%S'),
+            # Você pode incluir outras propriedades aqui conforme necessário
         })
     return jsonify(eventos_formatados)
+
+
+
+#  Rota para retornar detalhes do evento
+@main_bp.route('/get_event_details/<int:event_id>')  
+@login_required
+def get_event_details(event_id):
+    evento = Applications.query.get(event_id)
+    if evento:
+        event_details = {
+            'purpose': evento.purpose,
+            'dosage': evento.dosage,
+            'type_of_factor': evento.type_of_factor,
+            'absence': evento.absence,
+            'application_date': evento.application_date,  
+            'application_time': evento.application_time, 
+            
+        }
+    else:
+        event_details = {'error': 'Evento não encontrado'}
+    return jsonify(event_details)
+
+#  Rota para deletar evento
+@main_bp.route('/delete_event/<int:event_id>', methods=['DELETE'])
+@login_required
+def delete_event(event_id):
+    evento = Applications.query.get_or_404(event_id)
+    if evento.user_id != current_user.id:
+        # Se o evento não pertencer ao usuário atual, não permitir a exclusão
+        return jsonify({'message': 'Permissão negada'}), 403
+    db.session.delete(evento)
+    db.session.commit()
+    return jsonify({'message': 'Evento excluído com sucesso'}), 200
+
+
+#  Rota para editar evento
+@main_bp.route('/edit_event/<int:event_id>', methods=['GET', 'POST'])
+@login_required
+def edit_event(event_id):
+    evento = Applications.query.get_or_404(event_id)
+    if evento.user_id != current_user.id:
+        # Se o evento não pertencer ao usuário atual, não permitir a edição
+        return jsonify({'message': 'Permissão negada'}), 403
+
+    if request.method == 'POST':
+        # Atualizar os dados do evento com as informações recebidas do formulário
+        evento.type_of_factor = request.form['type_of_factor']
+        evento.dosage = request.form['dosage']
+        evento.purpose = request.form['purpose']
+        evento.absence = request.form['absence']
+        evento.application_date = request.form['application_date']
+        evento.application_time = request.form['application_time']
+        db.session.commit()
+        return jsonify({'message': 'Evento atualizado com sucesso'}), 200
+    else:
+        event_data = {
+            'type_of_factor': evento.type_of_factor,
+            'dosage': evento.dosage,
+            'purpose': evento.purpose,
+            'absence': evento.absence,
+            'application_date': evento.application_date,
+            'application_time': evento.application_time
+        }
+        return jsonify(event_data)
 
 @main_bp.route('/add_application', methods=['POST'])
 @login_required

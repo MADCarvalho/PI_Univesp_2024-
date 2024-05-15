@@ -52,56 +52,99 @@ document.addEventListener('DOMContentLoaded', function () {
         dayMaxEvents: true,
 
         
-        // Identificar o clique do usuário sobre o evento
-        eventClick: function (info) {
+        
+        // Identificar o clique do usuário sobre o evento existente
+        eventClick: function(info) {
+            // Função para formatar a data
+            function formatDate(dateString) {
+                var parts = dateString.split('-');
+                return parts[2] + '/' + parts[1] + '/' + parts[0];
+ }  
 
-            // Apresentar os detalhes do evento
-            document.getElementById("visualizarEvento").style.display = "block";
-            document.getElementById("visualizarModalLabel").style.display = "block";
+         // Faz uma requisição GET para buscar os detalhes do evento usando o ID do evento
+    fetch('/get_event_details/' + info.event.id)
+         .then(response => response.json())
+         .then(data => {
+             // Verifica se a resposta contém um erro
+             if(data.error) {
+                 alert('Erro ao buscar detalhes do evento: ' + data.error);
+             } else {
+                 // Preenche os campos do modal com as informações do evento
+                 $('#eventPurposeView').val(data.purpose);
+                 $('#dosageView').val(data.dosage);
+                 $('#type_of_factorView').val(data.type_of_factor);
+                 $('#absenceView').val(data.absence);
+                 $('#application_dateView').val(formatDate(data.application_date));
+                 $('#application_timeView').val(data.application_time);
+                 $('#eventID').val(info.event.id); 
+                 $('#editEventButton').off('click').on('click', function() {
+                    // Chama a função para editar o evento
+                    editEvent(info.event.id);
+                });
+            
+               
 
-            // Ocultar o formulário editar do evento
-            document.getElementById("editarEvento").style.display = "none";
-            document.getElementById("editarModalLabel").style.display = "none";
+                 // Abre o modal de visualização
+                 visualizarModal.show();
+             }
+         })
+         .catch(error => {
+             // Trata erros de rede
+             console.error('Erro ao buscar detalhes do evento:', error);
+         });
+ },
 
-            // Enviar para a janela modal os dados do evento
-            document.getElementById("visualizar_id").innerText = info.event.id;
-            document.getElementById("visualizar_title").innerText = info.event.title;
-            document.getElementById("visualizar_obs").innerText = info.event.extendedProps.obs;
-            document.getElementById("visualizar_start").innerText = info.event.start.toLocaleString();
-            document.getElementById("visualizar_end").innerText = info.event.end !== null ? info.event.end.toLocaleString() : info.event.start.toLocaleString();
 
-            // Enviar os dados do evento para o formulário editar
-            document.getElementById("edit_id").value = info.event.id;
-            document.getElementById("edit_title").value = info.event.title;
-            document.getElementById("edit_obs").value = info.event.extendedProps.obs;
-            document.getElementById("edit_start").value = converterData(info.event.start);
-            document.getElementById("edit_end").value = info.event.end !== null ? converterData(info.event.end) : converterData(info.event.start);
-            document.getElementById("edit_color").value = info.event.backgroundColor;
+  select: function(arg) {
+   
+    // Obter a data selecionada
+    const dataSelecionada = arg.start;
+    const ano = dataSelecionada.getFullYear();
+    const mes = dataSelecionada.getMonth() + 1; // Os meses são indexados de 0 a 11, então adicionamos 1
+    const dia = dataSelecionada.getDate();
+    const dataFormatada = `${ano}-${mes.toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')}`;
+    document.getElementById("application_date").value = dataFormatada;
 
-            // Abrir a janela modal visualizar
-            visualizarModal.show();
-        },
+     // Abrir o modal para cadastrar o evento
+     $('#cadastrarModal').modal('show');
+  } 
+});
+
+        // Adicionar os listeners para o botão de excluir 
        
-
-        select: function(arg) {
-            // Obter a data selecionada
-            const dataSelecionada = arg.start;
-            const ano = dataSelecionada.getFullYear();
-            const mes = dataSelecionada.getMonth() + 1; // Os meses são indexados de 0 a 11, então adicionamos 1
-            const dia = dataSelecionada.getDate();
-            const dataFormatada = `${ano}-${mes.toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')}`;
-            document.getElementById("application_date").value = dataFormatada;
-        
-            // Abrir o modal para cadastrar o evento
-            $('#cadastrarModal').modal('show');
-        }
-        
-        
-        
-        
+ 
+  document.getElementById('deleteEventButton').addEventListener('click', function() {
+    // Código para excluir o evento
+    var eventId = $('#eventID').val(); 
+    fetch('/delete_event/' + eventId, { method: 'DELETE' })
+        .then(response => {
+            if(response.ok) {
+                // Fechar o modal e atualizar o calendário
+                calendar.refetchEvents();
+                $('#visualizarModal').modal('hide');
+            } else {
+                alert('Erro ao excluir o evento');
+            }
+        });
+   });
+// Adicionar os listeners para os botão de editar
+  document.getElementById('editEventButton').addEventListener('click', function() {
+    // Código para editar o evento
+    var eventId = $('#eventID').val(); // ID do evento armazenado no campo oculto
+    // Buscar os detalhes do evento para edição
+    fetch('/get_event_details/' + eventId)
+        .then(response => response.json())
+        .then(data => {
+            // Preencher o formulário de edição com os dados do evento
+            // ...
+            // Abrir o modal de edição
+            $('#editarModal').modal('show');
+        })
+        .catch(error => {
+            console.error('Erro ao buscar detalhes do evento para edição:', error);
+        });
     });
-
     // Renderizar o calendário
     calendar.render();
-
+            
 });
