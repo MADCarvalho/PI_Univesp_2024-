@@ -86,8 +86,8 @@
                             </a>
                             {% endif %}
                             {% if current_user.is_authenticated %}
-                            <a href="{{ url_for('main.update_user') }}" class="navbar-item">
-                                Cadastro
+                            <a href="{{ url_for('main.edit_user_data') }}" class="navbar-item">
+                                Meus dados
                             <a href="{{ url_for('main.calendar') }}" class="navbar-item">
                                 Agenda
                             <a href="{{ url_for('auth.logout') }}" class="navbar-item">

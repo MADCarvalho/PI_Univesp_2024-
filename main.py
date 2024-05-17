@@ -51,10 +51,10 @@ def calculate_age(date_of_birth):
     return age, months
 
 
-
-@main_bp.route('/update_user', methods=['GET', 'POST'])
+#  Rota para editar o cadastro
+@main_bp.route('/edit_user_data', methods=['GET', 'POST'])
 @login_required
-def update_user():
+def edit_user_data():
     # Obter o registro de dados do usuário atual, se existir
     registration_data = Registration_data.query.filter_by(user_id=current_user.id).first()
 
@@ -119,15 +119,20 @@ def update_user():
             'contact_number': registration_data.contact_number
         }
 
-    return render_template('update_user.html', form_data=form_data)
+    return render_template('edit_user_data.html', form_data=form_data)
 
+
+
+
+
+#  Rota para a pagina do fullcalendar
 @main_bp.route('/calendar')
 @login_required
 def calendar():
     return render_template('calendar.html')
 
 
-#  rota para retornar os eventos em formato JSON
+#  Rota para retornar os eventos em formato JSON
 @main_bp.route('/api/eventos')
 @login_required
 def api_eventos():

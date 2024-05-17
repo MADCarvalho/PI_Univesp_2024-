@@ -24,9 +24,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Criar o cabeçalho do calendário
         headerToolbar: {
-            left: 'prev,next today',
+            left: 'prev,next',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            right: 'today'
         },
 
         // Definir o idioma usado no calendário

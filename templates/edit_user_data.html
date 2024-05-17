@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .form-style {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        border-radius: 10px;
+        background: #f8f9fa;
+    }
+
+    .btn-primary {
+        background-color: #3273dc; /* Cor primária do Bulma */
+        border-color: transparent;
+    }
+
+    .btn-primary:hover {
+        background-color: #276cda; /* Cor mais escura para o hover */
+    }
+
+    /* Adicionando estilo global para os rótulos */
+    .label {
+        display: block; /* Faz com que o rótulo ocupe toda a largura disponível */
+        text-align: center; /* Centraliza o texto do rótulo */
+        margin-bottom: .5rem; /* Espaçamento abaixo do rótulo */
+        font-weight: bold; /* Deixa o texto em negrito */
+    }
+</style>
+
+<h1 class="title">Editar dados cadastrais</h1>
+
+<form action="/edit_user_data" method="post" class="form-style">
+    <div class="field">
+        <label class="label" for="name">Nome:</label>
+        <div class="control">
+            <input class="input" type="text" id="name" name="name" value="{{ form_data.name }}" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label" for="medical_record_number">Número do Prontuário:</label>
+        <div class="control">
+            <input class="input" type="text" id="medical_record_number" name="medical_record_number" value="{{ form_data.medical_record_number }}" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label" for="date_of_birth">Data de Nascimento:</label>
+        <div class="control">
+            <input class="input" type="date" id="date_of_birth" name="date_of_birth" value="{{ form_data.date_of_birth }}" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label" for="diagnosis">Diagnóstico:</label>
+        <div class="control">
+            <div class="select is-fullwidth">
+                <select id="diagnosis" name="diagnosis" required>
+                    <option value="">Selecione um diagnóstico</option>
+                    <option value="Tipo A Grave" {% if form_data.diagnosis == 'Tipo A Grave' %}selected{% endif %}>Tipo A Grave</option>
+                    <option value="Tipo A Moderado" {% if form_data.diagnosis == 'Tipo A Moderado' %}selected{% endif %}>Tipo A Moderado</option>
+                    <option value="Tipo A Leve" {% if form_data.diagnosis == 'Tipo A Leve' %}selected{% endif %}>Tipo A Leve</option>
+                    <option value="Tipo B Grave" {% if form_data.diagnosis == 'Tipo B Grave' %}selected{% endif %}>Tipo B Grave</option>
+                    <option value="Tipo B Moderado" {% if form_data.diagnosis == 'Tipo B Moderado' %}selected{% endif %}>Tipo B Moderado</option>
+                    <option value="Tipo B Leve" {% if form_data.diagnosis == 'Tipo B Leve' %}selected{% endif %}>Tipo B Leve</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="field">
+        <label class="label" for="blood_type">Tipo Sanguíneo:</label>
+        <div class="control">
+            <div class="select is-fullwidth">
+                <select id="blood_type" name="blood_type" required>
+                    <option value="">Selecione o tipo sanguíneo</option>
+                    <option value="A+" {% if form_data.blood_type == 'A+' %}selected{% endif %}>A+</option>
+                    <option value="A-" {% if form_data.blood_type == 'A-' %}selected{% endif %}>A-</option>
+                    <option value="B+" {% if form_data.blood_type == 'B+' %}selected{% endif %}>B+</option>
+                    <option value="B-" {% if form_data.blood_type == 'B-' %}selected{% endif %}>B-</option>
+                    <option value="AB+" {% if form_data.blood_type == 'AB+' %}selected{% endif %}>AB+</option>
+                    <option value="AB-" {% if form_data.blood_type == 'AB-' %}selected{% endif %}>AB-</option>
+                    <option value="O+" {% if form_data.blood_type == 'O+' %}selected{% endif %}>O+</option>
+                    <option value="O-" {% if form_data.blood_type == 'O-' %}selected{% endif %}>O-</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+
+    
+
+       <div class="field">
+           <label class="label" for="father_name">Nome do Pai:</label>
+            <div class="control">
+             <input class="input" type="text" id="father_name" name="father_name"value="{{ form_data.father_name }}" required>
+            </div>
+       </div>
+
+       <div class="field">
+           <label class="label" for="mother_name">Nome da Mãe:</label>
+           <div class="control">
+             <input class="input" type="text" id="mother_name" name="mother_name" value="{{ form_data.mother_name }}"required>
+           </div>
+       </div>
+
+       <div class="field">
+           <label class="label" for="address">Endereço:</label>
+            <div class="control">
+              <input class="input" type="text" id="address" name="address" value="{{ form_data.address }}" required>
+           </div>
+       </div>
+     
+       <div class="field">
+           <label class="label" for="zip_code">Cep:</label>
+           <div class="control">
+               <input class="input" type="text" id="zip_code" name="zip_code" value="{{ form_data.zip_code }}" required>
+           </div>
+       </div>
+    
+       <div class="field">
+           <label class="label" for="contact_number">Telefone de Contato:</label>
+           <div class="control">
+               <input class="input" type="text" id="contact_number" name="contact_number" value="{{ form_data.contact_number }}" required>
+           </div>
+        </div>
+      
+        <input type="submit" value="Salvar" class="btn btn-primary">
+    </form>
+{% endblock %}
