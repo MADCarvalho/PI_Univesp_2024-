@@ -144,14 +144,23 @@ def api_eventos():
     for evento in eventos:
         # Certifica que 'application_date' é um objeto datetime
         data_inicio = datetime.strptime(evento.application_date, '%Y-%m-%d').date()
+  
+        # Combina a data e a hora 
+        application_time = evento.application_time  
+        data_hora_evento = f'{data_inicio}T{application_time}'
+        
+        # Converter a string 'data_hora_evento' para um objeto datetime
+        data_hora_formatada = datetime.strptime(data_hora_evento, '%Y-%m-%dT%H:%M')
+
         eventos_formatados.append({
-            'id': evento.id,  # Inclua o ID do evento aqui
+            'id': evento.id,
             'title': evento.purpose,
-            'start': data_inicio.strftime('%Y-%m-%dT%H:%M:%S'),
-            'end': (data_inicio + timedelta(hours=1)).strftime('%Y-%m-%dT%H:%M:%S'),
-            # Você pode incluir outras propriedades aqui conforme necessário
+            'start': data_hora_formatada.strftime('%Y-%m-%dT%H:%M:%S'),
+            'end': (data_hora_formatada + timedelta(hours=1)).strftime('%Y-%m-%dT%H:%M:%S'),
+            # Incluir outras propriedades aqui conforme necessário
         })
     return jsonify(eventos_formatados)
+
 
 
 

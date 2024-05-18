@@ -5,6 +5,11 @@ body {
     font-size: 18px;
 }
 
+/* Altera a cor da fonte dos cabeçalhos dos dias da semana */
+.fc-col-header-cell-cushion {
+    color: white; 
+}
+
 #calendar {
     max-width: 1320px;
     margin: 0 auto;

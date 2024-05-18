@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
         headerToolbar: {
             left: 'prev,next',
             center: 'title',
-            right: 'today'
+            right: 'today,dayGridMonth'
         },
 
         // Definir o idioma usado no calendário
