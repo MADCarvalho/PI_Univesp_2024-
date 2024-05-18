@@ -13,7 +13,7 @@
     <!-- Estilos para o modal -->
     <style>
         .fc-day:hover {
-            background-color: #e3e3e3; /* Cor de fundo ao passar o mouse */
+            background-color: #fffbfa30; /* Cor de fundo ao passar o mouse */
             cursor: pointer; /* Muda o cursor para indicar que é clicável */
         }
         .modal {
@@ -24,7 +24,7 @@
         }
       
         .modal-content {
-          background-color: #f8f9fa; /* Cor de fundo do modal */
+          background-color: #ff9f90; /* Cor de fundo do modal */
           color: #333333; /* Cor da fonte do modal */
         }
       .modal-backdrop {
@@ -68,39 +68,44 @@
                 </span>
 
                 <!-- Menu de navegação -->
-
-                    <div id="navbarMenuHeroA" class="navbar-menu">
-                        <div class="navbar-end">
-                            
-                            {% if current_user.is_authenticated %}
-                            <a href="{{ url_for('main.profile') }}" class="navbar-item">
-                                Perfil
-                            </a>
-                            {% endif %}
-                            {% if not current_user.is_authenticated %}
-                            <a href="{{ url_for('auth.login') }}" class="navbar-item">
-                                Acessar
-                            </a>
-                            <a href="{{ url_for('auth.signup') }}" class="navbar-item">
-                                Cadastre-se
-                            </a>
-                            {% endif %}
-                            {% if current_user.is_authenticated %}
-                            <a href="{{ url_for('main.edit_user_data') }}" class="navbar-item">
-                                Meus dados
-                            <a href="{{ url_for('main.calendar') }}" class="navbar-item">
-                                Agenda
-                            <a href="{{ url_for('auth.logout') }}" class="navbar-item">
-                                Sair
-                            </a>
-                            {% endif %}
-                        </div>
+                <span class="navbar-item has-text-weight-bold">
+                  <h3>  My Hemo Notes </h3>
+                </span>
+    
+                <!-- Menu de navegação -->
+                <div id="navbarMenuHeroA" class="navbar-menu">
+                    <div class="navbar-end">
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('main.profile') }}" class="navbar-item">
+                            Perfil
+                        </a>
+                        {% endif %}
+                        {% if not current_user.is_authenticated %}
+                        <a href="{{ url_for('auth.login') }}" class="navbar-item">
+                            Acessar
+                        </a>
+                        <a href="{{ url_for('auth.signup') }}" class="navbar-item">
+                            Cadastre-se
+                        </a>
+                        {% endif %}
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('main.edit_user_data') }}" class="navbar-item">
+                            Meus dados
+                        </a>
+                        <a href="{{ url_for('main.calendar') }}" class="navbar-item">
+                            Agenda
+                        </a>
+                        <a href="{{ url_for('auth.logout') }}" class="navbar-item">
+                            Sair
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
-            </nav>
-        </div>
-
-        <div class="hero-body">
+            </div>
+        </nav>
+    </div>
+        
+    <div class="hero-body">
             <div class="container has-text-centered">
                {% block content %}
                {% endblock %}

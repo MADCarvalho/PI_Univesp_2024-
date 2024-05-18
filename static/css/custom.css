@@ -18,3 +18,12 @@ body {
 .navbar-burger.is-active {
     color: white; /* Muda a cor do 'X' para branco */
 }
+
+
+.hero.is-primary.is-fullheight {
+    background-image: url('/static/imagens/hemophilia.avif');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+}
