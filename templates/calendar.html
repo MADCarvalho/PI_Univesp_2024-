@@ -163,38 +163,37 @@
 
 
       <!-- Modal Editar Evento -->
-  <div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
-     <div class="modal-dialog">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editarModalLabel">Editar Evento</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editarModalLabel">Editar Evento</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Formulário de edição de evento -->
+          <form id="formEditarEvento">
+            <div class="row mb-3">
+              <label for="eventPurposeEdit" class="col-sm-2 col-form-label">Propósito</label>
+              <div class="col-sm-10">
+                <select class="form-control" id="eventPurposeEdit" name="eventPurpose" required>
+                  <option value="">Selecione um Propósito</option>
+                  <option value="Profilático">Profilático</option>
+                  <option value="Sob demanda">Sob demanda</option>
+                </select>
+              </div>
             </div>
-            <div class="modal-body">
-                <!-- Formulário de edição de evento -->
-                <form id="formEditarEvento">
+  
+            <div class="row mb-3">
+              <label for="dosageEdit" class="col-sm-2 col-form-label">Dosagem UI:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="dosageEdit" name="dosage" required placeholder="Dosagem aplicada">
+              </div>
+            </div>
                     <div class="row mb-3">
-                        <label for="eventPurpose" class="col-sm-2 col-form-label">Propósito</label>
+                        <label for="type_of_factorEdit" class="col-sm-2 col-form-label">Fator:</label>
                         <div class="col-sm-10">
-                            <select class="form-control" id="eventPurpose" name="eventPurpose" required >
-                                <option value="">Selecione um Propósito</option>
-                                <option value="Profilático">Profilático</option>
-                                <option value="Sob demanda">Sob demanda</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label for="dosage" class="col-sm-2 col-form-label">Dosagem UI:</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="dosage" name="dosage" required placeholder="Dosagem aplicada">
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label for="type_of_factor" class="col-sm-2 col-form-label">Fator:</label>
-                        <div class="col-sm-10">
-                             <select class="form-control" id="type_of_factor" name="type_of_factor" required >  
+                             <select class="form-control" id="type_of_factorEdit" name="type_of_factor" required >  
                                <option value="">Fator administrado</option>
                                <option value="VIII">VIII</option>
                                <option value="IX">IX</option>
@@ -203,9 +202,9 @@
                     </div> 
                     
                     <div class="row mb-3">
-                        <label for="workSchoolAbsence" class="col-sm-2 col-form-label">Ausência?</label>
+                        <label for="workSchoolAbsenceEdit" class="col-sm-2 col-form-label">Ausência?</label>
                         <div class="col-sm-10">
-                             <select class="form-control" id="workSchoolAbsence" name="workSchoolAbsence" required >  
+                             <select class="form-control" id="workSchoolAbsenceEdit" name="workSchoolAbsence" required >  
                                <option value="">Ausência no trabalho ou escola?</option>
                                <option value="sim">Sim</option>
                                <option value="nao">Não</option>
@@ -215,11 +214,12 @@
 
                     
                     <div class="row mb-3">
-                        <label for="application_time" class="col-sm-2 col-form-label">Horario</label>
+                        <label for="application_timeEdit" class="col-sm-2 col-form-label">Horário</label>
                         <div class="col-sm-10">
-                            <input type="time" name="application_time" class="form-control" id="application_time">
+                            <input type="time" name="application_time" class="form-control" id="application_timeEdit">
                         </div>
                     </div>
+                    
 
                     
                     

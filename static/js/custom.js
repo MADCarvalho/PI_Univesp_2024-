@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
                  $('#eventPurposeView').val(data.purpose);
                  $('#dosageView').val(data.dosage);
                  $('#type_of_factorView').val(data.type_of_factor);
-                 $('#absenceView').val(data.absence);
+                 $('#workSchoolAbsenceView').val(data.absence);
                  $('#application_dateView').val(formatDate(data.application_date));
                  $('#application_timeView').val(data.application_time);
                  $('#eventID').val(info.event.id); 
@@ -135,11 +135,21 @@ document.addEventListener('DOMContentLoaded', function () {
     fetch('/get_event_details/' + eventId)
         .then(response => response.json())
         .then(data => {
-            // Preencher o formulário de edição com os dados do evento
-            // ...
-            // Abrir o modal de edição
+                if(data.error) {
+                console.error('Erro ao buscar detalhes do evento:', data.error);
+                } else {
+                // Preencher o formulário de edição com os dados do evento
+                    $('#eventPurposeEdit').val(data.purpose);
+                    $('#dosageEdit').val(data.dosage);
+                    $('#type_of_factorEdit').val(data.type_of_factor);
+                    $('#workSchoolAbsenceEdit').val(data.absence ? 'sim' : 'nao'); 
+                    $('#application_dateEdit').val(data.application_date);
+                    $('#application_timeEdit').val(data.application_time);
+                }  
+
+                // Abrir o modal de edição
             $('#editarModal').modal('show');
-        })
+         })
         .catch(error => {
             console.error('Erro ao buscar detalhes do evento para edição:', error);
         });

@@ -169,12 +169,16 @@ def api_eventos():
 @login_required
 def get_event_details(event_id):
     evento = Applications.query.get(event_id)
-    if evento:
+    if evento: 
+        
+        # Converte o valor booleano para 'Sim' ou 'Não'
+        absence_display = 'Sim' if evento.absence else 'Não'
+        
         event_details = {
             'purpose': evento.purpose,
             'dosage': evento.dosage,
             'type_of_factor': evento.type_of_factor,
-            'absence': evento.absence,
+            'absence': absence_display,  # Usa o valor convertido
             'application_date': evento.application_date,  
             'application_time': evento.application_time, 
             
