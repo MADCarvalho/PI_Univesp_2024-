@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
                  $('#eventID').val(info.event.id); 
                  $('#editEventButton').off('click').on('click', function() {
                     // Chama a função para editar o evento
-                    editEvent(info.event.id);
+                    $('#editarModal').modal('show');
                 });
             
                
@@ -127,8 +127,9 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
    });
-// Adicionar os listeners para os botão de editar
-  document.getElementById('editEventButton').addEventListener('click', function() {
+// Listener para o botão que chama o modal de edição
+ 
+ document.getElementById('editEventButton').addEventListener('click', function() {
     // Código para editar o evento
     var eventId = $('#eventID').val(); // ID do evento armazenado no campo oculto
     // Buscar os detalhes do evento para edição
@@ -154,6 +155,37 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Erro ao buscar detalhes do evento para edição:', error);
         });
     });
+  
+  
+  // Listener para o botão que atualiza o evento após a edição
+  document.getElementById('updateEventButton').addEventListener('click', function() {
+    // Código para atualizar o evento
+    var eventId = $('#eventID').val(); // Certifique-se de que eventID está correto
+    var formData = new FormData(document.getElementById('formEditarEvento'));
+  
+    fetch('/edit_event/' + eventId, {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.message === 'Evento atualizado com sucesso') {
+        // Lógica para atualização bem-sucedida
+        console.log('Evento atualizado com sucesso:', data.message);
+        // Fechar o modal de edição e atualizar a visualização, se necessário
+        $('#editarModal').modal('hide');
+        $('#visualizarModal').modal('hide');
+        // Atualizar o calendário ou a lista de eventos aqui
+        calendar.refetchEvents();
+      } else {
+        console.error('Erro ao atualizar evento:', data.message);
+      }
+    })
+    .catch(error => {
+      console.error('Erro ao atualizar evento:', error);
+    });
+  });
+  
     // Renderizar o calendário
     calendar.render();
             

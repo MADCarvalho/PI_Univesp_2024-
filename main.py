@@ -215,7 +215,7 @@ def edit_event(event_id):
         evento.dosage = request.form['dosage']
         evento.purpose = request.form['purpose']
         evento.absence = request.form['absence']
-        evento.application_date = request.form['application_date']
+        
         evento.application_time = request.form['application_time']
         db.session.commit()
         return jsonify({'message': 'Evento atualizado com sucesso'}), 200
@@ -225,7 +225,7 @@ def edit_event(event_id):
             'dosage': evento.dosage,
             'purpose': evento.purpose,
             'absence': evento.absence,
-            'application_date': evento.application_date,
+            
             'application_time': evento.application_time
         }
         return jsonify(event_data)

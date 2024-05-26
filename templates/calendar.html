@@ -172,11 +172,11 @@
         </div>
         <div class="modal-body">
           <!-- Formulário de edição de evento -->
-          <form id="formEditarEvento">
+          <form id="formEditarEvento" method="POST" action="/edit_event">
             <div class="row mb-3">
               <label for="eventPurposeEdit" class="col-sm-2 col-form-label">Propósito</label>
               <div class="col-sm-10">
-                <select class="form-control" id="eventPurposeEdit" name="eventPurpose" required>
+                <select class="form-control" id="eventPurposeEdit" name="purpose" required>
                   <option value="">Selecione um Propósito</option>
                   <option value="Profilático">Profilático</option>
                   <option value="Sob demanda">Sob demanda</option>
@@ -204,7 +204,7 @@
                     <div class="row mb-3">
                         <label for="workSchoolAbsenceEdit" class="col-sm-2 col-form-label">Ausência?</label>
                         <div class="col-sm-10">
-                             <select class="form-control" id="workSchoolAbsenceEdit" name="workSchoolAbsence" required >  
+                             <select class="form-control" id="workSchoolAbsenceEdit" name="absence" required >  
                                <option value="">Ausência no trabalho ou escola?</option>
                                <option value="sim">Sim</option>
                                <option value="nao">Não</option>
