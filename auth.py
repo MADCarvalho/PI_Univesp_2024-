@@ -107,7 +107,7 @@ def complete_registration():
 
     return render_template('complete_registration.html')
 
-# Certifique-se de proteger as outras rotas para que o usuário não possa acessá-las
+# Certificar-se de proteger as outras rotas para que o usuário não possa acessá-las
 # sem ter concluído o cadastro
 @auth_bp.before_request
 def before_request():

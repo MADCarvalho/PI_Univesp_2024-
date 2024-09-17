@@ -76,6 +76,7 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                         <button type="button" class="btn btn-danger" id="deleteEventButton">Excluir</button>
                         <button type="button" class="btn btn-primary" id="editEventButton">Editar</button>
+                        <!-- Criar um botão para visualizar o detalhe aqui -->
                     </div>
                 </div>
             </div>
@@ -84,29 +85,26 @@
 
 
     <!-- Modal Cadastrar -->
-    <div class="modal fade" id="cadastrarModal" tabindex="-1" aria-labelledby="cadastrarModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="cadastrarModalLabel">Cadastrar novo Evento</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-
-                    <span id="msgCadEvento"></span>
-
-                    <form id="formCadEvento" method="POST" action="/add_application">
-
-                        <div class="row mb-3">
-                            <label for="eventPurpose" class="col-sm-2 col-form-label">Propósito</label>
-                            <div class="col-sm-10">
-                                <select class="form-control" id="eventPurpose" name="eventPurpose" required >
-                                    <option value="">Selecione um Propósito</option>
-                                    <option value="Profilático">Profilático</option>
-                                    <option value="Sob demanda">Sob demanda</option>
-                                </select>
-                            </div>
+<div class="modal fade" id="cadastrarModal" tabindex="-1" aria-labelledby="cadastrarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="cadastrarModalLabel">Cadastrar novo Evento</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <span id="msgCadEvento"></span>
+                <form id="formCadEvento" method="POST" action="/add_application">
+                    <div class="row mb-3">
+                        <label for="eventPurpose" class="col-sm-2 col-form-label">Propósito</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="eventPurpose" name="eventPurpose" required>
+                                <option value="">Selecione um Propósito</option>
+                                <option value="Profilático">Profilático</option>
+                                <option value="Sob demanda">Sob demanda</option>
+                            </select>
                         </div>
+                    </div>
 
                         <div class="row mb-3">
                             <label for="dosage" class="col-sm-2 col-form-label">Dosagem UI:</label>
@@ -160,6 +158,94 @@
             </div>
         </div>
     </div>
+
+
+
+ <!-- Modal Cadastrar Detalhe de evento sob demanda -->
+ <div class="modal fade" id="cadastrarDetalhe" tabindex="-1" aria-labelledby="cadastrarDetalheLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="cadastrarDetalheLabel">Cadastrar Detalhes do Evento</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <span id="msgDetalheEvento"></span>
+
+                <form id="formDetalheEvento" method="POST" action="/add_occurrence">
+
+                    <div class="row mb-3">
+                        <label for="bleeding_type" class="col-sm-2 col-form-label">Tipo de sangramento</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="bleeding_type" name="bleeding_type" required >
+                                <option value="">Tipo do Sangramento</option>
+                                <option value="Hemartrose">Hemartrose</option>
+                                <option value="Hematoma">Hematoma</option>
+                                <option value="Hematúria">Hematúria</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="site_of_injury" class="col-sm-2 col-form-label">Local do sangramento</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="site_of_injury" name="site_of_injury" required >
+                                <option value="">Local do Sangramento</option>
+                                <option value="Cervical">Cervical</option>
+                                <option value="Cotovelo">Cotovelo</option>
+                                <option value="Tornozelo">Tornozelo</option>
+                                <option value="Joelho">Nas mucosas</option>
+                                <option value="Quadril">Quadril</option>
+                                <option value="Ombro">Ombro</option>
+                            </select>
+                        </div>
+                    </div>
+  
+
+                    <div class="row mb-3">
+                        <label for="side" class="col-sm-2 col-form-label">Lado da lesão:</label>
+                        <div class="col-sm-10">
+                            
+                            <select class="form-control" id="side" name="side" required >
+                                <option value="">Lado do Sangramento</option>
+                                <option value="Direito">Direito</option>
+                                <option value="Esquerdo">Esquerdo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="occurrence_date" class="col-sm-2 col-form-label">Data da ocorrência:</label>
+                        <div class="col-sm-10">
+                            <div class="col-sm-10">
+                                <input type="date" name="occurrence_date" class="form-control" id="occurrence_date">
+                            </div>
+                        </div>
+                    </div> 
+                                        
+                    <div class="row mb-3">
+                        <label for="occurrence_time" class="col-sm-2 col-form-label">Horario da ocorrência </label>
+                        <div class="col-sm-10">
+                            <input type="time" name="occurrence_time" class="form-control" id="occurrence_time">
+                        </div>
+                    </div>
+
+                    
+                    <button type="submit" name="btnDetalheEvento" class="btn btn-success" id="btnDetalheEvento">Registrar</button>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
 
 
       <!-- Modal Editar Evento -->
@@ -241,5 +327,67 @@
     <script src='static/js/core/locales-all.global.min.js'></script>
     <script src='static/js/custom.js'></script>
     <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Verifica se o propósito selecionado foi "Sob demanda" no modal de cadastro
+            const eventPurpose = document.getElementById('eventPurpose');
+            const formCadEvento = document.getElementById('formCadEvento');
+            const cadastrarDetalheModal = new bootstrap.Modal(document.getElementById('cadastrarDetalhe'));
+            const btnCadEvento = document.getElementById('btnCadEvento');
+    
+            formCadEvento.addEventListener('submit', function (event) {
+                event.preventDefault();  // Evita o envio padrão do formulário para manipulação posterior
+    
+                const selectedPurpose = eventPurpose.value;
+                
+                if (selectedPurpose === 'Sob demanda') {
+                    // Envia o formulário via AJAX para adicionar o evento
+                    $.ajax({
+                        type: 'POST',
+                        url: formCadEvento.action,
+                        data: $(formCadEvento).serialize(),
+                        success: function (response) {
+                            cadastrarDetalheModal.show();
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Erro ao cadastrar o evento:", error);
+                        }
+                    });
+                } else {
+                    formCadEvento.submit();
+                }
+            });
+    
+            // Verifica se o propósito foi alterado para "Sob demanda" no modal de edição
+            const eventPurposeEdit = document.getElementById('eventPurposeEdit');
+            const formEditarEvento = document.getElementById('formEditarEvento');
+            const btnEditEvento = document.getElementById('btnEditEvento');
+    
+            formEditarEvento.addEventListener('submit', function (event) {
+                event.preventDefault();  // Evita o envio padrão do formulário para manipulação posterior
+    
+                const selectedPurposeEdit = eventPurposeEdit.value;
+                
+                if (selectedPurposeEdit === 'Sob demanda') {
+                    // Envia o formulário via AJAX para editar o evento
+                    $.ajax({
+                        type: 'POST',
+                        url: formEditarEvento.action,
+                        data: $(formEditarEvento).serialize(),
+                        success: function (response) {
+                            cadastrarDetalheModal.show();
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Erro ao editar o evento:", error);
+                        }
+                    });
+                } else {
+                    formEditarEvento.submit();
+                }
+            });
+        });
+    </script>
 
 {% endblock %}

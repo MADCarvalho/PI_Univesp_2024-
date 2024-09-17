@@ -1,34 +1,103 @@
+/* Estilo Global */
 body {
-    margin: 0px 0px;
+    margin: 0;
     padding: 0;
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
     font-size: 18px;
+    background-color: #eef6f834; /* Cor de fundo suave */
+    color: #333333; /* Cor do texto padrão */
 }
 
-/* Altera a cor da fonte dos cabeçalhos dos dias da semana */
+/* Estilo para Cabeçalhos */
+h1, h2, h3, h4, h5, h6 {
+    color: #444444; /* Cor do texto dos cabeçalhos */
+}
+
+/* Altera a cor da fonte dos cabeçalhos dos dias da semana no calendário */
 .fc-col-header-cell-cushion {
-    color: white; 
+    color: #444444; 
 }
 
+/* Estilo para o Calendário */
 #calendar {
+    overflow: hidden; /* Remove a barra de rolagem */
     max-width: 1320px;
     margin: 0 auto;
-} 
-/* Estilos para o botão hamburger e 'X' para fechar */
-.navbar-burger span, .navbar-burger.is-active span {
-    background-color: white; /* Muda a cor das barras para branco */
+    background-color: #ffffff39; /* Fundo branco para o calendário */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8); /* Sombra suave ao redor do calendário */
+    border-radius: 10px; /* Borda arredondada */
+}
+.fc-scroller {
+    overflow: hidden !important; /* Garante que o scroller do FullCalendar não crie a rolagem */
+}
+/* Estilo para o Navbar */
+
+.navbar-dark .navbar-nav .nav-link,
+.navbar-dark .navbar-brand {
+    color: #302c2c; /* Cor escura para o texto */
 }
 
-/* Estilos para o botão hamburger quando ativo ('X' para fechar) */
-.navbar-burger.is-active {
-    color: white; /* Muda a cor do 'X' para branco */
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-brand:hover {
+    color: #000000; /* Cor ainda mais escura ao passar o mouse */
 }
 
 
-.hero.is-primary.is-fullheight {
-    background-image: url('/static/imagens/hemophilia.avif');
+/* Jumbotron  */
+.jumbotron {
+    background-image: url('/static/imagens/hemophilia.avif'); /* Mantenha a imagem de fundo existente */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed; 
+    background-attachment: fixed;
+    filter: blur(8px); /* Adiciona efeito de desfoque à imagem de fundo */
+    -webkit-filter: blur(8px); /* Suporte para navegadores Webkit */
+    padding: 100px 25px; /* Ajuste o padding conforme necessário */
+    color: #fff; /* Cor do texto sobre o fundo */
+    text-align: center; /* Centraliza o texto */
+}
+
+/* Estilos para Botões */
+.btn {
+    background-color: #3273dc; /* Azul suave para botões */
+    border-color: transparent;
+    color: white;
+    border-radius: 5px;
+}
+
+.btn:hover {
+    background-color: #276cda; /* Cor de hover mais escura */
+}
+
+/* Estilos para Formulários */
+.form-control {
+    background-color: #ffffff; /* Fundo branco para campos de formulário */
+    border: 1px solid #dddddd; /* Borda cinza clara */
+    border-radius: 5px; /* Borda arredondada */
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); /* Sombra interna */
+}
+
+.form-control:focus {
+    border-color: #3273dc42; /* Cor de foco para campos de formulário */
+}
+
+/* Estilos para Tabelas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: #ffffff; /* Fundo branco para tabelas */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); /* Sombra suave ao redor da tabela */
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #dddddd; /* Linha de separação */
+    color: #333333; /* Cor do texto nas células */
+}
+
+th {
+    background-color: #f2f2f2; /* Fundo mais claro para cabeçalhos de tabela */
+    color: #444444; /* Cor do texto dos cabeçalhos de tabela */
 }

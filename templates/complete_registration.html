@@ -10,128 +10,101 @@
         border-radius: 10px;
         background: #f8f9fa;
     }
-
-    .btn-primary {
-        background-color: #3273dc; /* Cor primária do Bulma */
-        border-color: transparent;
-    }
-
-    .btn-primary:hover {
-        background-color: #276cda; /* Cor mais escura para o hover */
-    }
-
-    /* Adicionando estilo global para os rótulos */
-    .label {
-        display: block; /* Faz com que o rótulo ocupe toda a largura disponível */
-        text-align: center; /* Centraliza o texto do rótulo */
-        margin-bottom: .5rem; /* Espaçamento abaixo do rótulo */
-        font-weight: bold; /* Deixa o texto em negrito */
-    }
 </style>
 
 <h1 class="title">
-    
     Complete seu cadastro
-    
 </h1>
 
 <form action="/complete_registration" method="post" class="form-style">
-    <div class="field">
-        <label class="label" for="name">Nome:</label>
+    <div class="mb-3">
+        <label class="form-label" for="name">Nome:</label>
         <div class="control">
-            <input class="input" type="text" id="name" name="name"  required>
+            <input class="form-control" type="text" id="name" name="name" required>
         </div>
     </div>
 
-    <div class="field">
-        <label class="label" for="medical_record_number">Número do Prontuário:</label>
+    <div class="mb-3">
+        <label class="form-label" for="medical_record_number">Número do Prontuário:</label>
         <div class="control">
-            <input class="input" type="text" id="medical_record_number" name="medical_record_number"  required>
+            <input class="form-control" type="text" id="medical_record_number" name="medical_record_number" required>
         </div>
     </div>
 
-    <div class="field">
-        <label class="label" for="date_of_birth">Data de Nascimento:</label>
+    <div class="mb-3">
+        <label class="form-label" for="date_of_birth">Data de Nascimento:</label>
         <div class="control">
-            <input class="input" type="date" id="date_of_birth" name="date_of_birth"  required>
+            <input class="form-control" type="date" id="date_of_birth" name="date_of_birth" required>
         </div>
     </div>
 
-    <div class="field">
-        <label class="label" for="diagnosis">Diagnóstico:</label>
+    <div class="mb-3">
+        <label class="form-label" for="diagnosis">Diagnóstico:</label>
         <div class="control">
-            <div class="select is-fullwidth">
-                <select id="diagnosis" name="diagnosis" required>
-                    <option value="">Selecione um diagnóstico</option>
-                    <option value="Tipo A Grave" >Tipo A Grave</option>
-                    <option value="Tipo A Moderado" >Tipo A Moderado</option>
-                    <option value="Tipo A Leve" >Tipo A Leve</option>
-                    <option value="Tipo B Grave" >Tipo B Grave</option>
-                    <option value="Tipo B Moderado">Tipo B Moderado</option>
-                    <option value="Tipo B Leve" >Tipo B Leve</option>
-                </select>
-            </div>
+            <select id="diagnosis" name="diagnosis" class="form-select" required>
+                <option value="">Selecione um diagnóstico</option>
+                <option value="Tipo A Grave">Tipo A Grave</option>
+                <option value="Tipo A Moderado">Tipo A Moderado</option>
+                <option value="Tipo A Leve">Tipo A Leve</option>
+                <option value="Tipo B Grave">Tipo B Grave</option>
+                <option value="Tipo B Moderado">Tipo B Moderado</option>
+                <option value="Tipo B Leve">Tipo B Leve</option>
+            </select>
         </div>
     </div>
-    
 
-    <div class="field">
-        <label class="label" for="blood_type">Tipo Sanguíneo:</label>
+    <div class="mb-3">
+        <label class="form-label" for="blood_type">Tipo Sanguíneo:</label>
         <div class="control">
-            <div class="select is-fullwidth">
-                <select id="blood_type" name="blood_type" required>
-                    <option value="">Selecione o tipo sanguíneo</option>
-                    <option value="A+" >A+</option>
-                    <option value="A-">A-</option>
-                    <option value="B+" >B+</option>
-                    <option value="B-" >B-</option>
-                    <option value="AB+" >AB+</option>
-                    <option value="AB-" >AB-</option>
-                    <option value="O+" >O+</option>
-                    <option value="O-" >O-</option>
-                </select>
-            </div>
+            <select id="blood_type" name="blood_type" class="form-select" required>
+                <option value="">Selecione o tipo sanguíneo</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+            </select>
         </div>
     </div>
-    
 
-    
-
-       <div class="field">
-           <label class="label" for="father_name">Nome do Pai:</label>
-            <div class="control">
-             <input class="input" type="text" id="father_name" name="father_name">
-            </div>
-       </div>
-
-       <div class="field">
-           <label class="label" for="mother_name">Nome da Mãe:</label>
-           <div class="control">
-             <input class="input" type="text" id="mother_name" name="mother_name" required>
-           </div>
-       </div>
-
-       <div class="field">
-           <label class="label" for="address">Endereço:</label>
-            <div class="control">
-              <input class="input" type="text" id="address" name="address" required>
-           </div>
-       </div>
-     
-       <div class="field">
-           <label class="label" for="zip_code">Cep:</label>
-           <div class="control">
-               <input class="input" type="text" id="zip_code" name="zip_code" required>
-           </div>
-       </div>
-    
-       <div class="field">
-           <label class="label" for="contact_number">Telefone de Contato:</label>
-           <div class="control">
-               <input class="input" type="text" id="contact_number" name="contact_number" required>
-           </div>
+    <div class="mb-3">
+        <label class="form-label" for="father_name">Nome do Pai:</label>
+        <div class="control">
+            <input class="form-control" type="text" id="father_name" name="father_name">
         </div>
-      
-        <input type="submit" value="Registrar" class="btn btn-primary">
-    </form>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" for="mother_name">Nome da Mãe:</label>
+        <div class="control">
+            <input class="form-control" type="text" id="mother_name" name="mother_name" required>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" for="address">Endereço:</label>
+        <div class="control">
+            <input class="form-control" type="text" id="address" name="address" required>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" for="zip_code">Cep:</label>
+        <div class="control">
+            <input class="form-control" type="text" id="zip_code" name="zip_code" required>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" for="contact_number">Telefone de Contato:</label>
+        <div class="control">
+            <input class="form-control" type="text" id="contact_number" name="contact_number" required>
+        </div>
+    </div>
+
+    <input type="submit" value="Registrar" class="btn btn-primary">
+</form>
 {% endblock %}

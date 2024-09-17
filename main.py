@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, current_app
 from flask_login import login_required, current_user
-from models import User, Registration_data, db, Applications
+from models import User, Registration_data, db, Applications, Occurrence
 from flask import flash, jsonify
 from auth import login_manager
 from datetime import datetime, date, timedelta
@@ -19,7 +19,7 @@ def index():
     return render_template('index.html')
  
  
- 
+ #  Rota para perfil do ususario
 @main_bp.route('/profile')
 @login_required
 def profile():
@@ -136,30 +136,36 @@ def calendar():
 @main_bp.route('/api/eventos')
 @login_required
 def api_eventos():
-    # Buscar todos os eventos associados ao usuário atual
     eventos = Applications.query.filter_by(user_id=current_user.id).all()
-    
-    # Formatar os eventos para o formato esperado pelo FullCalendar
+
     eventos_formatados = []
     for evento in eventos:
-        # Certifica que 'application_date' é um objeto datetime
-        data_inicio = datetime.strptime(evento.application_date, '%Y-%m-%d').date()
-  
-        # Combina a data e a hora 
-        application_time = evento.application_time  
-        data_hora_evento = f'{data_inicio}T{application_time}'
-        
-        # Converter a string 'data_hora_evento' para um objeto datetime
-        data_hora_formatada = datetime.strptime(data_hora_evento, '%Y-%m-%dT%H:%M')
+        data_inicio = evento.application_date
+        application_time = evento.application_time
 
-        eventos_formatados.append({
-            'id': evento.id,
-            'title': evento.purpose,
-            'start': data_hora_formatada.strftime('%Y-%m-%dT%H:%M:%S'),
-            'end': (data_hora_formatada + timedelta(hours=1)).strftime('%Y-%m-%dT%H:%M:%S'),
-            # Incluir outras propriedades aqui conforme necessário
-        })
+        # Adicionados logs para depuração
+        current_app.logger.info(f"Processando evento ID: {evento.id}, Data: {data_inicio}, Hora: {application_time}")
+
+        if not application_time:
+            current_app.logger.warning(f"Evento {evento.id} sem horário de aplicação definido.")
+            continue  # Ignorar este evento
+
+        data_hora_evento = f'{data_inicio}T{application_time}'
+        current_app.logger.info(f"Concatenando data e hora: {data_hora_evento}")
+
+        try:
+            data_hora_formatada = datetime.strptime(data_hora_evento, '%Y-%m-%dT%H:%M')
+            eventos_formatados.append({
+                'id': evento.id,
+                'title': evento.purpose,
+                'start': data_hora_formatada.strftime('%Y-%m-%dT%H:%M:%S'),
+                'end': (data_hora_formatada + timedelta(hours=1)).strftime('%Y-%m-%dT%H:%M:%S'),
+            })
+        except ValueError as e:
+            current_app.logger.error(f"Erro ao formatar data/hora do evento {evento.id}: {e}")
+
     return jsonify(eventos_formatados)
+
 
 
 
@@ -248,3 +254,21 @@ def add_application():
     flash('Aplicação adicionada com sucesso!', 'success')
     return render_template('calendar.html')    
     
+    # Rota para adicionar detalhes de evento Sob demanda
+    
+@main_bp.route('/add_occurrence', methods=['POST'])
+@login_required
+def add_occurrence():
+    data = request.form
+    new_occurrence = Occurrence(
+        bleeding_type=data.get('bleeding_type'),
+        site_of_injury=data.get('site_of_injury'),
+        side=data.get('side'),
+        occurrence_date=data.get('occurrence_date'),
+        occurrence_time=data.get('occurrence_time'),
+        user_id=current_user.id
+    )
+    db.session.add(new_occurrence)
+    db.session.commit()
+    flash('Detalhes do adicionados com sucesso!', 'success')
+    return render_template('calendar.html')     
