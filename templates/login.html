@@ -10,8 +10,9 @@
         </div>
     {% endif %}
     {% endwith %}
+    <div class="card p-4">
     <form method="POST" action="/login">
-        <div class="card p-4" >
+        
             <div class="mb-3">
                 <input class="form-control form-control-lg" type="email" name="email" placeholder="Seu E-mail" autofocus>
             </div>
@@ -26,7 +27,13 @@
                 </label>
             </div>
             <button class="btn btn-info btn-lg w-100">Entrar</button>
-        </div>
+        
     </form>
+    <a href="/google-login">
+    <button type="button" class="google-sign-in-button mt-2">
+        Sign in with Google
+    </button>
+    </div>
+</a>
 </div>
 {% endblock %}
